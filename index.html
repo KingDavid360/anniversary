@@ -16,6 +16,71 @@
       overflow-x: hidden;
     }
 
+    /* ── Splash screen ── */
+    #splash {
+      position: fixed; inset: 0; z-index: 99999;
+      background: #0d0208;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      transition: opacity 1.2s ease, visibility 1.2s ease;
+    }
+    #splash.hide { opacity: 0; visibility: hidden; }
+
+    .splash-hearts {
+      font-size: 2rem; letter-spacing: 8px;
+      animation: heartbeat 1.4s ease-in-out infinite;
+      margin-bottom: 32px;
+    }
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.25); }
+    }
+
+    .splash-years {
+      font-size: clamp(5rem, 22vw, 10rem);
+      font-style: italic; font-weight: 400; line-height: 1;
+      background: linear-gradient(135deg, #fff 0%, #ffc0cb 50%, #ff4d6d 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeUp .9s ease both;
+    }
+    .splash-years-label {
+      font-size: clamp(.85rem, 3vw, 1.1rem);
+      letter-spacing: 6px; text-transform: uppercase;
+      color: #ff8fa3; margin-top: 8px;
+      animation: fadeUp .9s .15s ease both;
+    }
+    .splash-divider {
+      width: 60px; height: 2px; margin: 28px auto;
+      background: linear-gradient(90deg, transparent, #ff6b8a, transparent);
+      animation: fadeUp .9s .3s ease both;
+    }
+    .splash-msg {
+      font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+      font-style: italic; color: rgba(255,255,255,.9);
+      line-height: 1.7; max-width: 560px; padding: 0 24px;
+      animation: fadeUp .9s .45s ease both;
+    }
+    .splash-sub {
+      margin-top: 14px; font-size: .8rem; letter-spacing: 4px;
+      text-transform: uppercase; color: #ff6b8a;
+      animation: fadeUp .9s .6s ease both;
+    }
+    .splash-photo {
+      width: 120px; height: 120px; border-radius: 50%; overflow: hidden;
+      border: 2px solid rgba(255,107,138,.6);
+      box-shadow: 0 0 30px rgba(255,107,138,.4);
+      margin-bottom: 36px;
+      animation: fadeUp .9s ease both;
+    }
+    .splash-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
     /* ── Particles canvas ── */
     #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
@@ -299,6 +364,19 @@
 </head>
 <body>
 
+<!-- ── Splash Screen ── -->
+<div id="splash">
+  <div class="splash-photo">
+    <img src="photos/photo11.jpg" alt="Us" />
+  </div>
+  <div class="splash-hearts">♡ ♥ ♡</div>
+  <div class="splash-years">2</div>
+  <div class="splash-years-label">Years of Us</div>
+  <div class="splash-divider"></div>
+  <div class="splash-msg">Two years of laughter, love, and choosing each other every single day. Happy Anniversary, my love.</div>
+  <div class="splash-sub">Here's to forever ♡</div>
+</div>
+
 <canvas id="particles"></canvas>
 
 <!-- ── Music Bar ── -->
@@ -431,6 +509,12 @@
 </footer>
 
 <script>
+/* ── Splash dismiss ── */
+setTimeout(() => {
+  document.getElementById('splash').classList.add('hide');
+  setTimeout(() => document.getElementById('splash').remove(), 1300);
+}, 4000);
+
 /* ── Photo list ── */
 const PHOTOS = Array.from({length: 13}, (_,i) => `photos/photo${i+1}.jpg`);
 const VIDEOS = Array.from({length: 10}, (_,i) => `videos/video${i+1}.mp4`);
