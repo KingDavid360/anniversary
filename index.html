@@ -4,529 +4,621 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Us ❤️</title>
-  <link rel="icon" href="photos/photo1.jpg" type="image/jpeg" />
+  <link rel="icon" href="photos/photo11.jpg" type="image/jpeg" />
+  <link rel="preload" as="image" href="photos/photo4.jpg" fetchpriority="high"/>
+  <link rel="preload" as="image" href="photos/photo11.jpg"/>
+  <link rel="preload" as="image" href="photos/photo13.jpg"/>
   <style>
-    /* ── Reset & Base ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Georgia', serif;
-      color: #fff;
-      overflow-x: hidden;
-      /* photo4 as fixed full-page background */
-      background-image: url('photos/photo4.jpg');
-      background-size: cover;
-      background-position: center center;
-      background-attachment: fixed;
-    }
-    /* calm dark overlay across the entire page */
-    body::before {
-      content: '';
-      position: fixed; inset: 0; z-index: 0;
-      background: linear-gradient(
-        160deg,
-        rgba(4, 6, 18, 0.82) 0%,
-        rgba(10, 4, 22, 0.86) 50%,
-        rgba(5, 3, 15, 0.88) 100%
-      );
-      pointer-events: none;
-    }
+  /* ── Reset & Base ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Georgia', serif;
+    background: #05030e;
+    color: #fff;
+    overflow-x: hidden;
+  }
 
-    /* ── Splash screen ── */
-    #splash {
-      position: fixed; inset: 0; z-index: 99999;
-      background: #0d0208;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center;
-      transition: opacity 1.2s ease, visibility 1.2s ease;
-    }
-    #splash.hide { opacity: 0; visibility: hidden; }
+  /* ══════════════════════════════════
+     BACKGROUND SLIDESHOW (fixed, full site)
+  ══════════════════════════════════ */
+  #bg-wrap {
+    position: fixed; inset: 0; z-index: 0;
+    background: #05030e;
+    overflow: hidden;
+  }
+  .bg-slide {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center 65%;
+    opacity: 0;
+    transition: opacity 2.2s ease-in-out;
+    transform: scale(1.06);
+    will-change: opacity, transform;
+  }
+  .bg-slide.active {
+    opacity: 1;
+    animation: bgDrift 14s ease-in-out forwards;
+  }
+  @keyframes bgDrift {
+    from { transform: scale(1.06); }
+    to   { transform: scale(1.12); }
+  }
+  /* dark calm overlay */
+  #bg-wrap::after {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(
+      160deg,
+      rgba(4,3,15,.80) 0%,
+      rgba(6,3,18,.72) 40%,
+      rgba(4,3,14,.82) 100%
+    );
+  }
 
-    .splash-hearts {
-      font-size: 2rem; letter-spacing: 8px;
-      animation: heartbeat 1.4s ease-in-out infinite;
-      margin-bottom: 32px;
-    }
-    @keyframes heartbeat {
-      0%,100% { transform: scale(1); }
-      50%      { transform: scale(1.25); }
-    }
+  /* ══════════════════════════════════
+     SPLASH
+  ══════════════════════════════════ */
+  #splash {
+    position: fixed; inset: 0; z-index: 99999;
+    background: radial-gradient(ellipse at 50% 50%, #1a0535 0%, #05030e 70%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 24px;
+    transition: opacity 1.4s ease, visibility 1.4s ease;
+  }
+  #splash.hide { opacity: 0; visibility: hidden; }
 
-    .splash-years {
-      font-size: clamp(5rem, 22vw, 10rem);
-      font-style: italic; font-weight: 400; line-height: 1;
-      background: linear-gradient(135deg, #fff 0%, #ffc0cb 50%, #ff4d6d 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: fadeUp .9s ease both;
-    }
-    .splash-years-label {
-      font-size: clamp(.85rem, 3vw, 1.1rem);
-      letter-spacing: 6px; text-transform: uppercase;
-      color: #ff8fa3; margin-top: 8px;
-      animation: fadeUp .9s .15s ease both;
-    }
-    .splash-divider {
-      width: 60px; height: 2px; margin: 28px auto;
-      background: linear-gradient(90deg, transparent, #ff6b8a, transparent);
-      animation: fadeUp .9s .3s ease both;
-    }
-    .splash-msg {
-      font-size: clamp(1.1rem, 3.5vw, 1.6rem);
-      font-style: italic; color: rgba(255,255,255,.9);
-      line-height: 1.7; max-width: 560px; padding: 0 24px;
-      animation: fadeUp .9s .45s ease both;
-    }
-    .splash-sub {
-      margin-top: 14px; font-size: .8rem; letter-spacing: 4px;
-      text-transform: uppercase; color: #ff6b8a;
-      animation: fadeUp .9s .6s ease both;
-    }
-    .splash-photo {
-      width: 120px; height: 120px; border-radius: 50%; overflow: hidden;
-      border: 2px solid rgba(255,107,138,.6);
-      box-shadow: 0 0 30px rgba(255,107,138,.4);
-      margin-bottom: 36px;
-      animation: fadeUp .9s ease both;
-    }
-    .splash-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .splash-photo {
+    width: 120px; height: 120px; border-radius: 50%; overflow: hidden;
+    border: 2px solid rgba(255,107,138,.65);
+    box-shadow: 0 0 32px rgba(255,107,138,.45), 0 0 80px rgba(255,107,138,.15);
+    margin-bottom: 28px;
+    animation: fadeUp .9s ease both, pulseRing 3s 1s ease-in-out infinite;
+  }
+  .splash-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+  @keyframes pulseRing {
+    0%,100% { box-shadow: 0 0 32px rgba(255,107,138,.45), 0 0 80px rgba(255,107,138,.15); }
+    50%      { box-shadow: 0 0 55px rgba(255,107,138,.75), 0 0 120px rgba(255,107,138,.3); }
+  }
 
-    /* ── Particles canvas ── */
-    #particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  .splash-names {
+    font-size: clamp(1rem, 4vw, 1.45rem);
+    font-weight: 400; letter-spacing: 5px; text-transform: uppercase;
+    color: #fff;
+    animation: fadeUp .9s .1s ease both;
+    margin-bottom: 6px;
+  }
+  .splash-names .x { color: rgba(255,107,138,.9); margin: 0 8px; }
 
-    /* ── Music player bar ── */
-    #music-bar {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      z-index: 9999;
-      background: rgba(10,0,5,0.85);
-      backdrop-filter: blur(12px);
-      border-top: 1px solid rgba(255,100,130,0.3);
-      display: flex; align-items: center; gap: 14px;
-      padding: 10px 20px;
-    }
-    #music-bar button {
-      background: none; border: none; cursor: pointer;
-      font-size: 1.4rem; color: #ff6b8a; transition: transform .2s;
-    }
-    #music-bar button:hover { transform: scale(1.2); }
-    #music-bar .song-info { flex: 1; }
-    #music-bar .song-title { font-size: .8rem; color: #ffc0cb; letter-spacing: 1px; }
-    #music-bar .song-sub   { font-size: .65rem; color: #ff8fa3; opacity: .7; }
-    #progress-wrap {
-      flex: 2; height: 4px; background: rgba(255,255,255,.15);
-      border-radius: 99px; cursor: pointer; position: relative;
-    }
-    #progress-fill {
-      height: 100%; border-radius: 99px;
-      background: linear-gradient(90deg,#ff6b8a,#ff4d6d);
-      width: 0%; transition: width .3s linear;
-    }
-    #vol-icon { font-size: 1rem; color: #ff8fa3; }
-    #volume-slider {
-      width: 70px; accent-color: #ff6b8a;
-      -webkit-appearance: none; appearance: none;
-      height: 4px; border-radius: 99px;
-    }
+  .splash-years {
+    font-size: clamp(5rem, 22vw, 9rem);
+    font-style: italic; font-weight: 400; line-height: 1;
+    background: linear-gradient(135deg, #fff 0%, #ffc0cb 50%, #ff4d6d 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeUp .9s .2s ease both;
+    margin: 8px 0 4px;
+  }
+  .splash-years-label {
+    font-size: clamp(.8rem, 2.5vw, 1rem);
+    letter-spacing: 6px; text-transform: uppercase;
+    color: #ff8fa3;
+    animation: fadeUp .9s .3s ease both;
+    margin-bottom: 22px;
+  }
 
-    /* ── Hero ── */
-    #hero {
-      position: relative; height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center; overflow: hidden;
-      z-index: 1;
-    }
-    #hero-bg { display: none; }
-    .logo-ring {
-      width: 160px; height: 160px;
-      border-radius: 50%;
-      border: 3px solid rgba(255,107,138,.6);
-      box-shadow: 0 0 40px rgba(255,107,138,.4), 0 0 80px rgba(255,107,138,.15);
-      overflow: hidden;
-      margin-bottom: 32px;
-      position: relative; z-index: 2;
-      animation: pulse-ring 3s ease-in-out infinite;
-    }
-    .logo-ring img { width: 100%; height: 100%; object-fit: cover; }
-    @keyframes pulse-ring {
-      0%,100% { box-shadow: 0 0 40px rgba(255,107,138,.4), 0 0 80px rgba(255,107,138,.15); }
-      50%      { box-shadow: 0 0 60px rgba(255,107,138,.7), 0 0 120px rgba(255,107,138,.3); }
-    }
-    .hero-tag {
-      font-size: .75rem; letter-spacing: 6px; text-transform: uppercase;
-      color: #ff8fa3; margin-bottom: 12px; position: relative; z-index: 2;
-    }
-    .hero-title {
-      font-size: clamp(3.5rem, 10vw, 7rem);
-      font-style: italic; font-weight: 400;
-      background: linear-gradient(135deg,#fff 0%,#ffc0cb 50%,#ff6b8a 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      position: relative; z-index: 2;
-      line-height: 1;
-    }
-    .hero-sub {
-      margin-top: 18px; font-size: 1rem; color: rgba(255,192,203,.75);
-      letter-spacing: 3px; text-transform: uppercase;
-      position: relative; z-index: 2;
-    }
-    .scroll-hint {
-      position: absolute; bottom: 100px;
-      display: flex; flex-direction: column; align-items: center;
-      gap: 8px; z-index: 2; animation: bounce 2s ease-in-out infinite;
-    }
-    .scroll-hint span { font-size: .65rem; letter-spacing: 3px; color: #ff8fa3; }
-    .scroll-hint .arrow { font-size: 1.2rem; color: #ff6b8a; }
-    @keyframes bounce {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(8px); }
-    }
+  .splash-wish {
+    font-size: clamp(1rem, 3.5vw, 1.35rem);
+    font-style: italic; color: rgba(255,255,255,.88);
+    line-height: 1.65; max-width: 520px;
+    animation: fadeUp .9s .45s ease both;
+    margin-bottom: 16px;
+  }
 
-    /* ── Section wrapper ── */
-    section { position: relative; z-index: 1; }
+  .splash-days {
+    font-size: clamp(.85rem, 2.5vw, 1rem);
+    letter-spacing: 3px; color: rgba(255,255,255,.65);
+    animation: fadeUp .9s .58s ease both;
+    margin-bottom: 6px;
+  }
+  .splash-days s {
+    color: rgba(255,107,138,.7);
+    text-decoration-color: rgba(255,107,138,.9);
+  }
 
-    /* ── Chapter heading ── */
-    .chapter {
-      text-align: center; padding: 80px 20px 40px;
-    }
-    .chapter-eyebrow {
-      font-size: .7rem; letter-spacing: 5px; color: #ff6b8a;
-      text-transform: uppercase; margin-bottom: 12px;
-    }
-    .chapter-title {
-      font-size: clamp(1.8rem,4vw,3rem); font-style: italic; font-weight: 400;
-      background: linear-gradient(135deg,#fff 0%,#ffc0cb 60%,#ff6b8a 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .chapter-line {
-      width: 60px; height: 2px; margin: 18px auto 0;
-      background: linear-gradient(90deg,transparent,#ff6b8a,transparent);
-    }
+  .splash-hearts {
+    font-size: 1.5rem; letter-spacing: 10px;
+    animation: fadeUp .9s .7s ease both, heartbeat 1.6s 1.6s ease-in-out infinite;
+    margin-top: 8px;
+  }
+  @keyframes heartbeat {
+    0%,100% { transform: scale(1); }
+    50%      { transform: scale(1.2); }
+  }
 
-    /* ── Masonry photo grid ── */
-    .photo-masonry {
-      columns: 3 280px; gap: 12px;
-      padding: 20px 24px 60px;
-      max-width: 1200px; margin: 0 auto;
-    }
-    .photo-masonry .photo-card {
-      break-inside: avoid; margin-bottom: 12px;
-      border-radius: 16px; overflow: hidden;
-      position: relative; cursor: pointer;
-      box-shadow: 0 4px 20px rgba(0,0,0,.5);
-      transition: transform .3s, box-shadow .3s;
-    }
-    .photo-masonry .photo-card:hover {
-      transform: translateY(-4px) scale(1.01);
-      box-shadow: 0 12px 40px rgba(255,107,138,.35);
-    }
-    .photo-masonry .photo-card img {
-      width: 100%; display: block;
-      loading: lazy;
-    }
-    .photo-card-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(255,75,110,.35) 0%, transparent 50%);
-      opacity: 0; transition: opacity .3s;
-    }
-    .photo-card:hover .photo-card-overlay { opacity: 1; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
-    /* ── Lightbox ── */
-    #lightbox {
-      position: fixed; inset: 0; z-index: 9000;
-      background: rgba(0,0,0,.92); backdrop-filter: blur(10px);
-      display: none; align-items: center; justify-content: center;
-    }
-    #lightbox.open { display: flex; }
-    #lightbox img {
-      max-width: 90vw; max-height: 88vh;
-      border-radius: 16px;
-      box-shadow: 0 0 60px rgba(255,107,138,.4);
-      object-fit: contain;
-    }
-    #lb-close {
-      position: absolute; top: 20px; right: 24px;
-      font-size: 2rem; color: #fff; cursor: pointer;
-      background: none; border: none;
-    }
-    #lb-prev, #lb-next {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      font-size: 2.5rem; color: #fff; cursor: pointer;
-      background: rgba(255,255,255,.08); border: none;
-      border-radius: 50%; width: 52px; height: 52px;
-      display: flex; align-items: center; justify-content: center;
-      transition: background .2s;
-    }
-    #lb-prev:hover, #lb-next:hover { background: rgba(255,107,138,.3); }
-    #lb-prev { left: 16px; }
-    #lb-next { right: 16px; }
+  /* ══════════════════════════════════
+     SITE CONTENT
+  ══════════════════════════════════ */
+  #site-content { position: relative; z-index: 10; }
 
-    /* ── Video gallery ── */
-    .video-grid {
-      display: grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
-      gap: 16px; padding: 20px 24px 60px;
-      max-width: 1200px; margin: 0 auto;
-    }
-    .video-card {
-      border-radius: 16px; overflow: hidden;
-      background: rgba(8, 5, 20, 0.55);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 20px rgba(0,0,0,.5);
-      transition: transform .3s, box-shadow .3s;
-    }
-    .video-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(255,107,138,.3);
-    }
-    .video-card video {
-      width: 100%; display: block; max-height: 360px;
-      object-fit: cover; border-radius: 16px 16px 0 0;
-    }
-    .video-card-label {
-      padding: 10px 14px; font-size: .75rem;
-      color: #ff8fa3; letter-spacing: 2px; text-transform: uppercase;
-    }
+  /* ── Particles canvas ── */
+  #particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
 
-    /* ── Timeline ── */
-    .timeline {
-      max-width: 700px; margin: 0 auto;
-      padding: 20px 24px 80px;
-      position: relative;
-    }
-    .timeline::before {
-      content: '';
-      position: absolute; left: 50%; top: 0; bottom: 0; width: 2px;
-      background: linear-gradient(to bottom, transparent, #ff6b8a 10%, #ff6b8a 90%, transparent);
-      transform: translateX(-50%);
-    }
-    .tl-item {
-      display: flex; align-items: flex-start; gap: 20px;
-      margin-bottom: 48px; position: relative;
-    }
-    .tl-item:nth-child(odd) { flex-direction: row-reverse; text-align: right; }
-    .tl-dot {
-      flex-shrink: 0; width: 16px; height: 16px;
-      border-radius: 50%; background: #ff6b8a;
-      box-shadow: 0 0 12px #ff6b8a;
-      position: absolute; left: 50%; transform: translateX(-50%);
-      top: 4px;
-    }
-    .tl-content { flex: 1; }
-    .tl-date { font-size: .7rem; letter-spacing: 3px; color: #ff6b8a; margin-bottom: 6px; }
-    .tl-text { font-size: 1rem; color: rgba(255,255,255,.85); line-height: 1.6; }
+  /* ══════════════════════════════════
+     HERO
+  ══════════════════════════════════ */
+  #hero {
+    position: relative; height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; z-index: 10;
+  }
+  .logo-ring {
+    width: 160px; height: 160px; border-radius: 50%;
+    border: 3px solid rgba(255,107,138,.6);
+    box-shadow: 0 0 40px rgba(255,107,138,.4), 0 0 80px rgba(255,107,138,.15);
+    overflow: hidden; margin-bottom: 32px;
+    animation: pulseRing 3s ease-in-out infinite;
+  }
+  .logo-ring img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
+  .hero-tag {
+    font-size: .72rem; letter-spacing: 6px; text-transform: uppercase;
+    color: #ff8fa3; margin-bottom: 10px;
+  }
+  .hero-title {
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    font-style: italic; font-weight: 400;
+    background: linear-gradient(135deg,#fff 0%,#ffc0cb 50%,#ff6b8a 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; line-height: 1;
+    animation: fadeUp .9s .1s ease both;
+  }
+  .hero-sub {
+    margin-top: 16px; font-size: 1rem; color: rgba(255,192,203,.75);
+    letter-spacing: 3px; text-transform: uppercase;
+    animation: fadeUp .9s .25s ease both;
+  }
+  .scroll-hint {
+    position: absolute; bottom: 90px;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  .scroll-hint span { font-size: .62rem; letter-spacing: 3px; color: #ff8fa3; }
+  .scroll-hint .arr { font-size: 1.1rem; color: #ff6b8a; }
+  @keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(8px); }
+  }
 
-    /* ── Love note ── */
-    .love-note {
-      max-width: 680px; margin: 0 auto;
-      padding: 60px 40px;
-      background: rgba(8, 5, 20, 0.55);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,107,138,.2);
-      border-radius: 24px;
-      text-align: center;
-      backdrop-filter: blur(10px);
-      margin-bottom: 80px;
-    }
-    .love-note .quote-mark { font-size: 4rem; color: #ff6b8a; line-height: .5; opacity: .4; }
-    .love-note p {
-      font-size: 1.05rem; line-height: 1.9;
-      color: rgba(255,255,255,.85); font-style: italic;
-      margin: 20px 0;
-    }
-    .love-note .signature { color: #ff8fa3; font-size: .85rem; letter-spacing: 2px; }
+  /* ══════════════════════════════════
+     SECTIONS
+  ══════════════════════════════════ */
+  section { position: relative; z-index: 10; }
 
-    /* ── Floating hearts ── */
-    .heart-float {
-      position: fixed; bottom: -60px; font-size: 1.5rem;
-      animation: floatUp 6s ease-in forwards;
-      pointer-events: none; z-index: 8000;
-      opacity: .7;
-    }
-    @keyframes floatUp {
-      to { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
-    }
+  .chapter { text-align: center; padding: 80px 20px 40px; }
+  .chapter-eyebrow {
+    font-size: .68rem; letter-spacing: 5px; color: #ff6b8a;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  .chapter-title {
+    font-size: clamp(1.8rem,4vw,3rem); font-style: italic; font-weight: 400;
+    background: linear-gradient(135deg,#fff 0%,#ffc0cb 60%,#ff6b8a 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .chapter-line {
+    width: 55px; height: 1px; margin: 16px auto 0;
+    background: linear-gradient(90deg,transparent,#ff6b8a,transparent);
+  }
 
-    /* ── Footer ── */
-    footer {
-      text-align: center; padding: 40px 20px 100px;
-      color: rgba(255,255,255,.3); font-size: .75rem; letter-spacing: 2px;
-    }
-    footer span { color: #ff6b8a; }
+  /* ── Photo masonry ── */
+  .photo-masonry {
+    columns: 3 280px; gap: 12px;
+    padding: 20px 24px 60px; max-width: 1200px; margin: 0 auto;
+  }
+  .photo-card {
+    break-inside: avoid; margin-bottom: 12px;
+    border-radius: 14px; overflow: hidden;
+    position: relative; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,0,0,.55);
+    transition: transform .3s, box-shadow .3s;
+  }
+  .photo-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 12px 40px rgba(255,107,138,.3);
+  }
+  .photo-card img { width: 100%; display: block; }
+  .photo-card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(255,75,110,.3) 0%, transparent 50%);
+    opacity: 0; transition: opacity .3s;
+  }
+  .photo-card:hover .photo-card-overlay { opacity: 1; }
 
-    /* ── Responsive ── */
-    @media(max-width:600px) {
-      .photo-masonry { columns: 2 140px; }
-      .timeline::before { left: 20px; }
-      .tl-item { flex-direction: row !important; text-align: left !important; padding-left: 44px; }
-      .tl-dot { left: 20px; }
-    }
+  /* ── Lightbox ── */
+  #lightbox {
+    position: fixed; inset: 0; z-index: 9000;
+    background: rgba(0,0,0,.92); backdrop-filter: blur(10px);
+    display: none; align-items: center; justify-content: center;
+  }
+  #lightbox.open { display: flex; }
+  #lightbox img {
+    max-width: 90vw; max-height: 88vh;
+    border-radius: 14px;
+    box-shadow: 0 0 60px rgba(255,107,138,.35);
+    object-fit: contain;
+  }
+  #lb-close {
+    position: absolute; top: 18px; right: 22px;
+    font-size: 2rem; color: #fff; cursor: pointer;
+    background: none; border: none;
+  }
+  #lb-prev, #lb-next {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    font-size: 2.5rem; color: #fff; cursor: pointer;
+    background: rgba(255,255,255,.08); border: none;
+    border-radius: 50%; width: 50px; height: 50px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s;
+  }
+  #lb-prev:hover, #lb-next:hover { background: rgba(255,107,138,.3); }
+  #lb-prev { left: 14px; }
+  #lb-next { right: 14px; }
+
+  /* ── Video grid ── */
+  .video-grid {
+    display: grid; grid-template-columns: repeat(auto-fill,minmax(300px,1fr));
+    gap: 16px; padding: 20px 24px 60px;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .video-card {
+    border-radius: 14px; overflow: hidden;
+    background: rgba(8,5,20,.55); backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0,0,0,.5);
+    transition: transform .3s, box-shadow .3s;
+  }
+  .video-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(255,107,138,.28);
+  }
+  .video-card video {
+    width: 100%; display: block; max-height: 360px;
+    object-fit: cover; border-radius: 14px 14px 0 0;
+  }
+  .video-card-label {
+    padding: 10px 14px; font-size: .72rem;
+    color: #ff8fa3; letter-spacing: 2px; text-transform: uppercase;
+  }
+
+  /* ── Timeline ── */
+  .timeline {
+    max-width: 700px; margin: 0 auto;
+    padding: 20px 24px 80px; position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 50%; top: 0; bottom: 0; width: 1px;
+    background: linear-gradient(to bottom, transparent, #ff6b8a 10%, #ff6b8a 90%, transparent);
+    transform: translateX(-50%);
+  }
+  .tl-item {
+    display: flex; align-items: flex-start; gap: 20px;
+    margin-bottom: 48px; position: relative;
+  }
+  .tl-item:nth-child(odd) { flex-direction: row-reverse; text-align: right; }
+  .tl-dot {
+    flex-shrink: 0; width: 14px; height: 14px;
+    border-radius: 50%; background: #ff6b8a;
+    box-shadow: 0 0 10px #ff6b8a;
+    position: absolute; left: 50%; transform: translateX(-50%); top: 4px;
+  }
+  .tl-content { flex: 1; }
+  .tl-date { font-size: .68rem; letter-spacing: 3px; color: #ff6b8a; margin-bottom: 6px; }
+  .tl-text { font-size: 1rem; color: rgba(255,255,255,.82); line-height: 1.65; }
+
+  /* ── Love note ── */
+  .love-note {
+    max-width: 680px; margin: 0 auto 80px;
+    padding: 50px 36px;
+    background: rgba(8,5,20,.55); backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,107,138,.18);
+    border-radius: 22px; text-align: center;
+  }
+  .love-note .quote-mark { font-size: 4rem; color: #ff6b8a; line-height: .5; opacity: .35; }
+  .love-note p {
+    font-size: 1.05rem; line-height: 1.9;
+    color: rgba(255,255,255,.82); font-style: italic; margin: 20px 0;
+  }
+  .love-note .signature { color: #ff8fa3; font-size: .82rem; letter-spacing: 2px; }
+
+  /* ── Floating hearts ── */
+  .heart-float {
+    position: fixed; bottom: -60px; font-size: 1.5rem;
+    animation: floatUp 6s ease-in forwards;
+    pointer-events: none; z-index: 8000; opacity: .7;
+  }
+  @keyframes floatUp {
+    to { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
+  }
+
+  footer {
+    text-align: center; padding: 40px 20px 60px;
+    color: rgba(255,255,255,.25); font-size: .72rem; letter-spacing: 2px;
+    position: relative; z-index: 10;
+  }
+  footer span { color: #ff6b8a; }
+
+  /* ── YouTube hidden player ── */
+  #yt-wrap { position: fixed; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden; pointer-events: none; }
+
+  /* ── Responsive ── */
+  @media(max-width:600px) {
+    .photo-masonry { columns: 2 140px; }
+    .timeline::before { left: 20px; }
+    .tl-item { flex-direction: row !important; text-align: left !important; padding-left: 44px; }
+    .tl-dot { left: 20px; }
+    .love-note { margin: 0 16px 60px; padding: 36px 22px; }
+  }
   </style>
 </head>
 <body>
 
-<!-- ── Splash Screen ── -->
+<!-- ── Background slideshow ── -->
+<div id="bg-wrap"></div>
+
+<!-- ── YouTube hidden player ── -->
+<div id="yt-wrap"><div id="yt-player"></div></div>
+
+<!-- ── Particles ── -->
+<canvas id="particles"></canvas>
+
+<!-- ── Splash ── -->
 <div id="splash">
   <div class="splash-photo">
     <img src="photos/photo11.jpg" alt="Us" />
   </div>
-  <div class="splash-hearts">♡ ♥ ♡</div>
+  <div class="splash-names">Silantane <span class="x">×</span> Tobechukwu</div>
   <div class="splash-years">2</div>
   <div class="splash-years-label">Years of Us</div>
-  <div class="splash-divider"></div>
-  <div class="splash-msg">Two years of laughter, love, and choosing each other every single day. Happy Anniversary, my love.</div>
-  <div class="splash-sub">Here's to forever ♡</div>
+  <div class="splash-wish">Happy two-year anniversary to US 🎉❤️</div>
+  <div class="splash-days"><s>730½</s>&nbsp; days &nbsp;∞ left</div>
+  <div class="splash-hearts">♡ ♥ ♡</div>
 </div>
 
-<canvas id="particles"></canvas>
+<!-- ── Site content ── -->
+<div id="site-content">
 
-<!-- ── Music Bar ── -->
-<div id="music-bar">
-  <button id="play-btn" onclick="togglePlay()" title="Play/Pause">▶</button>
-  <div class="song-info">
-    <div class="song-title">Perfect · Ed Sheeran</div>
-    <div class="song-sub">Playing for us ♡</div>
-  </div>
-  <div id="progress-wrap" onclick="seekAudio(event)">
-    <div id="progress-fill"></div>
-  </div>
-  <span id="vol-icon">🔊</span>
-  <input id="volume-slider" type="range" min="0" max="1" step="0.05" value="0.6"
-         oninput="setVolume(this.value)" />
-  <!-- YouTube IFrame hidden player for "Perfect" by Ed Sheeran -->
-  <div id="yt-player" style="position:fixed;left:-400px;top:-300px;width:320px;height:180px;pointer-events:none;"></div>
+  <!-- Hero -->
+  <section id="hero">
+    <div class="logo-ring">
+      <img src="photos/photo11.jpg" alt="Us" />
+    </div>
+    <p class="hero-tag">A love story</p>
+    <h1 class="hero-title">Us</h1>
+    <p class="hero-sub">Together · Always · Forever</p>
+    <div class="scroll-hint">
+      <span>Scroll to explore</span>
+      <span class="arr">↓</span>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section>
+    <div class="chapter">
+      <p class="chapter-eyebrow">Chapter One</p>
+      <h2 class="chapter-title">Our Story</h2>
+      <div class="chapter-line"></div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">The Beginning</div>
+          <div class="tl-text">The day we met, the world shifted into colour. Everything before you feels like a draft.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">First Date</div>
+          <div class="tl-text">Laughter, nerves, stolen glances — and the quiet knowing that this was the start of something beautiful.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">Falling in Love</div>
+          <div class="tl-text">Not a single moment but a thousand small ones — calls that ran past midnight, hands that found each other easily.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-date">Two Years Strong</div>
+          <div class="tl-text">Here we are — still choosing each other, still growing together. Here's to every year that follows.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Photos -->
+  <section>
+    <div class="chapter">
+      <p class="chapter-eyebrow">Chapter Two</p>
+      <h2 class="chapter-title">Memories We've Made</h2>
+      <div class="chapter-line"></div>
+    </div>
+    <div class="photo-masonry" id="photo-grid"></div>
+  </section>
+
+  <!-- Videos -->
+  <section>
+    <div class="chapter">
+      <p class="chapter-eyebrow">Chapter Three</p>
+      <h2 class="chapter-title">Moments in Motion</h2>
+      <div class="chapter-line"></div>
+    </div>
+    <div class="video-grid" id="video-grid"></div>
+  </section>
+
+  <!-- Love note -->
+  <section>
+    <div class="chapter">
+      <p class="chapter-eyebrow">Chapter Four</p>
+      <h2 class="chapter-title">A Note for You</h2>
+      <div class="chapter-line"></div>
+    </div>
+    <div class="love-note" style="margin: 0 24px 80px;">
+      <div class="quote-mark">"</div>
+      <p>
+        I never believed in perfect timing until I met you.<br/>
+        Every laugh we've shared, every quiet evening, every adventure —
+        they've all been building something I want to keep building forever.<br/>
+        Thank you for choosing me, every single day.
+      </p>
+      <p>Happy Anniversary, my love. Here's to us. Always us.</p>
+      <div class="signature">— Forever yours ♡</div>
+    </div>
+  </section>
+
 </div>
 
-<!-- ── Hero ── -->
-<section id="hero">
-  <div id="hero-bg"></div>
-  <div class="logo-ring">
-    <img src="photos/photo11.jpg" alt="Us" id="logo-img" />
-  </div>
-  <p class="hero-tag">A love story</p>
-  <h1 class="hero-title">Us</h1>
-  <p class="hero-sub">Together · Always · Forever</p>
-  <div class="scroll-hint">
-    <span>Scroll to explore</span>
-    <span class="arrow">↓</span>
-  </div>
-</section>
-
-<!-- ── Our Story Timeline ── -->
-<section>
-  <div class="chapter">
-    <p class="chapter-eyebrow">Chapter One</p>
-    <h2 class="chapter-title">Our Story</h2>
-    <div class="chapter-line"></div>
-  </div>
-  <div class="timeline">
-    <div class="tl-item">
-      <div class="tl-dot"></div>
-      <div class="tl-content">
-        <div class="tl-date">The Beginning</div>
-        <div class="tl-text">The day we met, the world shifted into colour. Everything before you feels like a draft.</div>
-      </div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-dot"></div>
-      <div class="tl-content">
-        <div class="tl-date">First Date</div>
-        <div class="tl-text">Laughter, nerves, stolen glances — and the quiet knowing that this was the start of something beautiful.</div>
-      </div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-dot"></div>
-      <div class="tl-content">
-        <div class="tl-date">Falling in Love</div>
-        <div class="tl-text">Not a single moment but a thousand small ones — calls that ran past midnight, hands that found each other easily.</div>
-      </div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-dot"></div>
-      <div class="tl-content">
-        <div class="tl-date">Happy Anniversary</div>
-        <div class="tl-text">Here we are — still choosing each other, still growing together. Here's to every year that follows.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Photo Gallery ── -->
-<section>
-  <div class="chapter">
-    <p class="chapter-eyebrow">Chapter Two</p>
-    <h2 class="chapter-title">Memories We've Made</h2>
-    <div class="chapter-line"></div>
-  </div>
-  <div class="photo-masonry" id="photo-grid">
-    <!-- filled by JS -->
-  </div>
-</section>
-
-<!-- ── Video Gallery ── -->
-<section>
-  <div class="chapter">
-    <p class="chapter-eyebrow">Chapter Three</p>
-    <h2 class="chapter-title">Moments in Motion</h2>
-    <div class="chapter-line"></div>
-  </div>
-  <div class="video-grid" id="video-grid">
-    <!-- filled by JS -->
-  </div>
-</section>
-
-<!-- ── Love Note ── -->
-<section>
-  <div class="chapter">
-    <p class="chapter-eyebrow">Chapter Four</p>
-    <h2 class="chapter-title">A Note for You</h2>
-    <div class="chapter-line"></div>
-  </div>
-  <div class="love-note" style="padding: 40px 24px; margin: 0 24px 80px;">
-    <div class="quote-mark">"</div>
-    <p>
-      I never believed in perfect timing until I met you.<br/>
-      Every laugh we've shared, every quiet evening, every adventure —
-      they've all been building something I want to keep building forever.<br/>
-      Thank you for choosing me, every single day.
-    </p>
-    <p>
-      Happy Anniversary, my love. Here's to us. Always us.
-    </p>
-    <div class="signature">— Forever yours ♡</div>
-  </div>
-</section>
-
-<!-- ── Lightbox ── -->
+<!-- Lightbox -->
 <div id="lightbox">
   <button id="lb-close" onclick="closeLightbox()">✕</button>
-  <button id="lb-prev" onclick="lbNav(-1)">‹</button>
+  <button id="lb-prev"  onclick="lbNav(-1)">‹</button>
   <img id="lb-img" src="" alt="" />
-  <button id="lb-next" onclick="lbNav(1)">›</button>
+  <button id="lb-next"  onclick="lbNav(1)">›</button>
 </div>
 
-<footer>
-  Made with <span>♡</span> · Just for Us
-</footer>
+<footer>Made with <span>♡</span> · Silantane × Tobechukwu · 2 Years</footer>
 
 <script>
-/* ── Splash dismiss ── */
+/* ══════════════════════════════════
+   BACKGROUND SLIDESHOW
+══════════════════════════════════ */
+const BG_SLIDES = [
+  { src: 'photos/photo4.jpg',  pos: 'center 65%' },
+  { src: 'photos/photo11.jpg', pos: 'center 20%' },
+  { src: 'photos/photo13.jpg', pos: 'center 50%' },
+  { src: 'photos/photo3.jpg',  pos: 'center 40%' },
+  { src: 'photos/photo6.jpg',  pos: 'center 35%' },
+];
+
+/* preload all bg images immediately */
+BG_SLIDES.forEach(s => { const i = new Image(); i.src = s.src; });
+
+let bgIdx = 0, bgEls = [];
+(function buildBg() {
+  const wrap = document.getElementById('bg-wrap');
+  BG_SLIDES.forEach((s, i) => {
+    const el = document.createElement('div');
+    el.className = 'bg-slide' + (i === 0 ? ' active' : '');
+    el.style.backgroundImage = `url('${s.src}')`;
+    el.style.backgroundPosition = s.pos;
+    wrap.insertBefore(el, wrap.firstChild);
+    bgEls.push(el);
+  });
+  setInterval(() => {
+    bgEls[bgIdx].classList.remove('active');
+    bgIdx = (bgIdx + 1) % bgEls.length;
+    bgEls[bgIdx].classList.add('active');
+  }, 6000);
+})();
+
+/* ══════════════════════════════════
+   SPLASH
+══════════════════════════════════ */
 setTimeout(() => {
-  document.getElementById('splash').classList.add('hide');
-  setTimeout(() => document.getElementById('splash').remove(), 1300);
-}, 4000);
+  const s = document.getElementById('splash');
+  s.classList.add('hide');
+  setTimeout(() => s.remove(), 1500);
+}, 4500);
 
-/* ── Photo list ── */
-const PHOTOS = Array.from({length: 13}, (_,i) => `photos/photo${i+1}.jpg`);
-const VIDEOS = Array.from({length: 10}, (_,i) => `videos/video${i+1}.mp4`);
+/* ══════════════════════════════════
+   YOUTUBE MUSIC — Adenuga · Joeboy ft. Qing Madi
+   Strategy (same as birthday site):
+   1. API loads on page open.
+   2. On first user gesture → unmute + play.
+   3. If player not ready yet → queue it.
+══════════════════════════════════ */
+let ytPlayer = null, ytReady = false, musicOn = false, playWhenReady = false;
+let audioUnlocked = false;
 
-/* ── Render photo grid ── */
+/* Load API immediately */
+(function() {
+  const t = document.createElement('script');
+  t.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(t);
+})();
+
+window.onYouTubeIframeAPIReady = function() {
+  ytPlayer = new YT.Player('yt-player', {
+    height: '1', width: '1',
+    videoId: 'IkoIKcuq3ic', /* Adenuga - Joeboy ft. Qing Madi */
+    playerVars: { autoplay: 0, loop: 1, controls: 0, playlist: 'IkoIKcuq3ic', mute: 1 },
+    events: {
+      onReady: e => {
+        e.target.setVolume(55);
+        ytReady = true;
+        if (playWhenReady) {
+          e.target.playVideo(); /* muted — iOS allows this */
+          musicOn = true;
+        }
+      }
+    }
+  });
+};
+
+/* iOS: unlock AudioContext inside the gesture that dismisses the splash */
+function unlockAudio() {
+  try {
+    const ac = new (window.AudioContext || window.webkitAudioContext)();
+    const buf = ac.createBuffer(1, 1, 22050);
+    const src = ac.createBufferSource();
+    src.buffer = buf; src.connect(ac.destination); src.start(0);
+    setTimeout(() => ac.close(), 500);
+  } catch(e) {}
+}
+
+/* Arm global unmute — fires on the very first touch/click after page load */
+function armGlobalUnmute() {
+  function unlock() {
+    if (audioUnlocked) return;
+    unlockAudio();
+    playWhenReady = true;
+    if (ytPlayer && ytReady) {
+      try { ytPlayer.unMute(); ytPlayer.setVolume(55); ytPlayer.playVideo(); } catch(e) {}
+      musicOn = true;
+    }
+    audioUnlocked = true;
+    removeAll();
+  }
+  function removeAll() {
+    ['touchend','click','pointerdown','keydown'].forEach(ev =>
+      document.removeEventListener(ev, unlock, true));
+  }
+  ['touchend','click','pointerdown','keydown'].forEach(ev =>
+    document.addEventListener(ev, unlock, { capture: true, passive: true }));
+}
+armGlobalUnmute();
+
+/* ══════════════════════════════════
+   PHOTO & VIDEO GRIDS
+══════════════════════════════════ */
+const PHOTOS = Array.from({ length: 13 }, (_, i) => `photos/photo${i+1}.jpg`);
+const VIDEOS = Array.from({ length: 10 }, (_, i) => `videos/video${i+1}.mp4`);
+
+/* preload first few gallery photos */
+PHOTOS.slice(0, 4).forEach(s => { const i = new Image(); i.src = s; });
+
 const photoGrid = document.getElementById('photo-grid');
 PHOTOS.forEach((src, idx) => {
   const card = document.createElement('div');
@@ -536,7 +628,6 @@ PHOTOS.forEach((src, idx) => {
   photoGrid.appendChild(card);
 });
 
-/* ── Render video grid ── */
 const videoGrid = document.getElementById('video-grid');
 VIDEOS.forEach((src, idx) => {
   const card = document.createElement('div');
@@ -549,7 +640,9 @@ VIDEOS.forEach((src, idx) => {
   videoGrid.appendChild(card);
 });
 
-/* ── Lightbox ── */
+/* ══════════════════════════════════
+   LIGHTBOX
+══════════════════════════════════ */
 let lbIndex = 0;
 function openLightbox(idx) {
   lbIndex = idx;
@@ -570,69 +663,9 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft')  lbNav(-1);
 });
 
-/* ── Music via YouTube IFrame API ── */
-let ytPlayer = null;
-let playing = false;
-let ytReady = false;
-
-window.onYouTubeIframeAPIReady = function() {
-  ytPlayer = new YT.Player('yt-player', {
-    videoId: '2Vv-BfVoq4g', // Perfect - Ed Sheeran
-    playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: '2Vv-BfVoq4g', mute: 0 },
-    events: {
-      onReady: (e) => { e.target.setVolume(60); ytReady = true; },
-      onStateChange: (e) => {
-        if (e.data === YT.PlayerState.PLAYING) {
-          playing = true;
-          document.getElementById('play-btn').textContent = '⏸';
-          startProgressLoop();
-        } else if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
-          playing = false;
-          document.getElementById('play-btn').textContent = '▶';
-        }
-      }
-    }
-  });
-};
-
-// Load YouTube IFrame API
-(function() {
-  const tag = document.createElement('script');
-  tag.src = 'https://www.youtube.com/iframe_api';
-  document.head.appendChild(tag);
-})();
-
-function togglePlay() {
-  if (!ytPlayer || !ytReady) return;
-  if (playing) { ytPlayer.pauseVideo(); }
-  else         { ytPlayer.playVideo(); }
-}
-function setVolume(v) { if (ytPlayer && ytReady) ytPlayer.setVolume(v * 100); }
-function seekAudio(e) {
-  if (!ytPlayer || !ytReady) return;
-  const rect = e.currentTarget.getBoundingClientRect();
-  const ratio = (e.clientX - rect.left) / rect.width;
-  const dur = ytPlayer.getDuration();
-  if (dur) ytPlayer.seekTo(ratio * dur, true);
-}
-
-function startProgressLoop() {
-  function tick() {
-    if (!ytPlayer || !ytReady) return;
-    const dur = ytPlayer.getDuration();
-    const cur = ytPlayer.getCurrentTime();
-    if (dur) document.getElementById('progress-fill').style.width = (cur / dur * 100) + '%';
-    if (playing) requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-}
-
-/* Auto-play on first user interaction */
-document.addEventListener('click', () => {
-  if (!playing && ytPlayer && ytReady) { ytPlayer.playVideo(); }
-}, { once: true });
-
-/* ── Particle hearts ── */
+/* ══════════════════════════════════
+   PARTICLE HEARTS
+══════════════════════════════════ */
 const canvas = document.getElementById('particles');
 const ctx = canvas.getContext('2d');
 let W, H, parts = [];
@@ -644,15 +677,15 @@ class Particle {
   reset() {
     this.x = Math.random() * W;
     this.y = H + 20;
-    this.size = 6 + Math.random() * 10;
-    this.speed = .3 + Math.random() * .7;
-    this.opacity = .2 + Math.random() * .4;
+    this.size = 6 + Math.random() * 9;
+    this.speed = .25 + Math.random() * .6;
+    this.opacity = .15 + Math.random() * .35;
     this.drift = (Math.random() - .5) * .4;
   }
   draw() {
     ctx.save();
     ctx.globalAlpha = this.opacity;
-    ctx.fillStyle = `hsl(${340 + Math.random()*20},100%,70%)`;
+    ctx.fillStyle = `hsl(${338 + Math.random()*18},100%,72%)`;
     ctx.font = `${this.size}px serif`;
     ctx.fillText('♡', this.x, this.y);
     ctx.restore();
@@ -663,14 +696,14 @@ class Particle {
     if (this.y < -20) this.reset();
   }
 }
-for (let i = 0; i < 30; i++) parts.push(new Particle());
+for (let i = 0; i < 28; i++) parts.push(new Particle());
 (function loop() {
   ctx.clearRect(0, 0, W, H);
   parts.forEach(p => { p.update(); p.draw(); });
   requestAnimationFrame(loop);
 })();
 
-/* ── Floating hearts on click ── */
+/* click-to-spawn hearts */
 document.body.addEventListener('click', e => {
   const h = document.createElement('div');
   h.className = 'heart-float';
@@ -681,15 +714,20 @@ document.body.addEventListener('click', e => {
   setTimeout(() => h.remove(), 8000);
 });
 
-/* ── Scroll reveal ── */
+/* ══════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════ */
 const io = new IntersectionObserver(entries => {
   entries.forEach(en => {
-    if (en.isIntersecting) { en.target.style.opacity = '1'; en.target.style.transform = 'translateY(0)'; }
+    if (en.isIntersecting) {
+      en.target.style.opacity = '1';
+      en.target.style.transform = 'translateY(0)';
+    }
   });
 }, { threshold: 0.1 });
 document.querySelectorAll('.photo-card, .video-card, .tl-item, .love-note').forEach(el => {
   el.style.opacity = '0';
-  el.style.transform = 'translateY(30px)';
+  el.style.transform = 'translateY(28px)';
   el.style.transition = 'opacity .6s ease, transform .6s ease';
   io.observe(el);
 });
