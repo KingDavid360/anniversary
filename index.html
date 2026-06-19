@@ -812,7 +812,7 @@ function checkGame(i) {
   if (isNaN(val)) { fb.textContent = 'Enter a number 💕'; return; }
 
   if (Math.abs(val - 730.5) < 0.01) {
-    fb.textContent = '✓ Yes! 730.5 — that's us 🎉';
+    fb.textContent = '✓ Yes! 730.5 — that’s us 🎉';
     fb.style.color = '#ff6b8a';
     document.getElementById('pip-' + i).classList.add('done');
     gameDone[i] = true;
