@@ -297,46 +297,132 @@
     color: #ff8fa3; letter-spacing: 2px; text-transform: uppercase;
   }
 
-  /* ── Timeline ── */
-  .timeline {
-    max-width: 700px; margin: 0 auto;
-    padding: 20px 24px 80px; position: relative;
+  /* ── About cards ── */
+  .about-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px; padding: 20px 24px 60px; max-width: 1100px; margin: 0 auto;
   }
-  .timeline::before {
-    content: '';
-    position: absolute; left: 50%; top: 0; bottom: 0; width: 1px;
-    background: linear-gradient(to bottom, transparent, #ff6b8a 10%, #ff6b8a 90%, transparent);
-    transform: translateX(-50%);
+  .about-card {
+    background: rgba(8,5,20,.55); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,107,138,.15); border-radius: 18px;
+    padding: 30px 26px;
   }
-  .tl-item {
-    display: flex; align-items: flex-start; gap: 20px;
-    margin-bottom: 48px; position: relative;
+  .about-card-num {
+    font-size: .62rem; letter-spacing: 3px; color: rgba(255,107,138,.55);
+    text-transform: uppercase; margin-bottom: 10px; display: block;
   }
-  .tl-item:nth-child(odd) { flex-direction: row-reverse; text-align: right; }
-  .tl-dot {
-    flex-shrink: 0; width: 14px; height: 14px;
-    border-radius: 50%; background: #ff6b8a;
-    box-shadow: 0 0 10px #ff6b8a;
-    position: absolute; left: 50%; transform: translateX(-50%); top: 4px;
+  .about-card h3 {
+    font-size: 1.15rem; font-style: italic; color: #fff;
+    margin-bottom: 12px; font-weight: 400;
   }
-  .tl-content { flex: 1; }
-  .tl-date { font-size: .68rem; letter-spacing: 3px; color: #ff6b8a; margin-bottom: 6px; }
-  .tl-text { font-size: 1rem; color: rgba(255,255,255,.82); line-height: 1.65; }
+  .about-card p {
+    font-size: .95rem; line-height: 1.85; color: rgba(255,255,255,.78);
+  }
 
-  /* ── Love note ── */
-  .love-note {
-    max-width: 680px; margin: 0 auto 80px;
-    padding: 50px 36px;
-    background: rgba(8,5,20,.55); backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,107,138,.18);
-    border-radius: 22px; text-align: center;
+  /* ── Nicknames ── */
+  .nick-list {
+    max-width: 720px; margin: 0 auto 80px; padding: 0 24px;
+    display: flex; flex-direction: column; gap: 0;
   }
-  .love-note .quote-mark { font-size: 4rem; color: #ff6b8a; line-height: .5; opacity: .35; }
-  .love-note p {
-    font-size: 1.05rem; line-height: 1.9;
-    color: rgba(255,255,255,.82); font-style: italic; margin: 20px 0;
+  .nick-item {
+    display: flex; align-items: baseline; gap: 16px;
+    padding: 18px 0; border-bottom: 1px solid rgba(255,107,138,.1);
   }
-  .love-note .signature { color: #ff8fa3; font-size: .82rem; letter-spacing: 2px; }
+  .nick-name {
+    font-size: 1.05rem; font-style: italic; color: #fff;
+    min-width: 140px; flex-shrink: 0;
+  }
+  .nick-when { font-size: .9rem; color: rgba(255,255,255,.62); line-height: 1.6; }
+
+  /* ── Story prose ── */
+  .story-prose {
+    max-width: 720px; margin: 0 auto 80px; padding: 0 24px;
+  }
+  .story-prose p {
+    font-size: 1.02rem; line-height: 1.9; color: rgba(255,255,255,.8);
+    margin-bottom: 1.4rem;
+  }
+
+  /* ── Anniversary game ── */
+  .game-wrap {
+    max-width: 600px; margin: 0 auto 80px; padding: 0 24px;
+    text-align: center;
+  }
+  .game-sub {
+    font-size: .82rem; color: rgba(255,255,255,.4);
+    letter-spacing: 2px; margin-bottom: 28px;
+  }
+  .game-q {
+    background: rgba(8,5,20,.55); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,107,138,.18); border-radius: 18px;
+    padding: 32px 28px; margin-bottom: 20px;
+    display: none;
+  }
+  .game-q.active { display: block; }
+  .game-q-num { font-size: .65rem; letter-spacing: 3px; color: #ff8fa3; margin-bottom: 14px; }
+  .game-q-text {
+    font-size: 1.5rem; font-style: italic; color: #fff;
+    margin-bottom: 22px; line-height: 1.4;
+  }
+  .game-input-row { display: flex; gap: 10px; justify-content: center; }
+  .game-input {
+    background: rgba(255,255,255,.07); border: 1px solid rgba(255,107,138,.3);
+    color: #fff; font-size: 1.1rem; padding: 10px 16px;
+    border-radius: 10px; outline: none; width: 160px; text-align: center;
+    font-family: Georgia, serif;
+  }
+  .game-input::placeholder { color: rgba(255,255,255,.25); }
+  .game-input:focus { border-color: rgba(255,107,138,.7); }
+  .game-btn {
+    background: rgba(255,107,138,.15); border: 1px solid rgba(255,107,138,.4);
+    color: #fff; font-size: .8rem; letter-spacing: 2px;
+    padding: 10px 20px; border-radius: 10px; cursor: pointer;
+    transition: background .2s; font-family: Georgia, serif;
+  }
+  .game-btn:hover { background: rgba(255,107,138,.3); }
+  .game-feedback {
+    margin-top: 14px; font-size: .9rem; min-height: 24px;
+    color: #ff8fa3; font-style: italic;
+  }
+  .game-progress {
+    display: flex; gap: 8px; justify-content: center; margin-bottom: 24px; flex-wrap: wrap;
+  }
+  .game-pip {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: rgba(255,255,255,.15); transition: background .3s;
+  }
+  .game-pip.done { background: #ff6b8a; box-shadow: 0 0 8px #ff6b8a; }
+  .game-win {
+    display: none; padding: 40px 28px;
+    background: rgba(8,5,20,.6); backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,107,138,.3); border-radius: 18px;
+    font-style: italic; font-size: 1.15rem; line-height: 1.8;
+    color: rgba(255,255,255,.88);
+  }
+  .game-win.show { display: block; animation: fadeUp .8s ease both; }
+  .game-win .big { font-size: 2rem; margin-bottom: 12px; }
+
+  /* ── Floating hearts ── */
+  .heart-float {
+    position: fixed; bottom: -60px; font-size: 1.5rem;
+    animation: floatUp 6s ease-in forwards;
+    pointer-events: none; z-index: 8000; opacity: .7;
+  }
+  @keyframes floatUp {
+    to { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
+  }
+
+  /* ── Balloon burst ── */
+  .balloon-burst {
+    position: fixed; pointer-events: none; z-index: 8500;
+    font-size: 1.8rem;
+    animation: burstBalloon 1.4s ease-out forwards;
+  }
+  @keyframes burstBalloon {
+    0%   { transform: translate(0,0) scale(0); opacity: 1; }
+    60%  { opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) scale(1); opacity: 0; }
+  }
 
   /* ── Floating hearts ── */
   .heart-float {
@@ -409,41 +495,33 @@
     </div>
   </section>
 
-  <!-- Timeline -->
+  <!-- All About Her -->
   <section>
     <div class="chapter">
       <p class="chapter-eyebrow">Chapter One</p>
-      <h2 class="chapter-title">Our Story</h2>
+      <h2 class="chapter-title">All about MY PBBG 💕</h2>
       <div class="chapter-line"></div>
     </div>
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-content">
-          <div class="tl-date">The Beginning</div>
-          <div class="tl-text">The day we met, the world shifted into colour. Everything before you feels like a draft.</div>
-        </div>
+    <div class="about-grid">
+      <div class="about-card">
+        <span class="about-card-num">01</span>
+        <h3>Her Smile</h3>
+        <p>Her smile makes me feel safe and comfortable. It's my favourite part of every day — I wake up looking forward to seeing her smile, seeing her happy, and seeing her bring joy to other people including me.</p>
       </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-content">
-          <div class="tl-date">First Date</div>
-          <div class="tl-text">Laughter, nerves, stolen glances — and the quiet knowing that this was the start of something beautiful.</div>
-        </div>
+      <div class="about-card">
+        <span class="about-card-num">02</span>
+        <h3>Her Personality</h3>
+        <p>She is a kind and loving person. She tries to be funny in her own way 😂 and that's part of what makes her special. She's my person and I love everything about her. She is selfless and always puts others first. In these past two years, she has definitely put me before herself more than I can count.</p>
       </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-content">
-          <div class="tl-date">Falling in Love</div>
-          <div class="tl-text">Not a single moment but a thousand small ones — calls that ran past midnight, hands that found each other easily.</div>
-        </div>
+      <div class="about-card">
+        <span class="about-card-num">03</span>
+        <h3>How She Treats Me</h3>
+        <p>She treats me like I'm the only one that matters. She creates a safe space for me when I'm down and is always there for me. She has been my number one support system and has been behind so many of the good things I've achieved in these two years.</p>
       </div>
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-content">
-          <div class="tl-date">Two Years Strong</div>
-          <div class="tl-text">Here we are — still choosing each other, still growing together. Here's to every year that follows.</div>
-        </div>
+      <div class="about-card">
+        <span class="about-card-num">04</span>
+        <h3>How She Makes Me Feel</h3>
+        <p>She makes me feel happy, safe, heard, and appreciated. She helps me stay focused on my goals and pushes me to be better. She makes me feel like I can do anything. I can be myself when I'm with her — being with her feels so easy.</p>
       </div>
     </div>
   </section>
@@ -452,7 +530,7 @@
   <section>
     <div class="chapter">
       <p class="chapter-eyebrow">Chapter Two</p>
-      <h2 class="chapter-title">Memories We've Made</h2>
+      <h2 class="chapter-title">Our Memories</h2>
       <div class="chapter-line"></div>
     </div>
     <div class="photo-masonry" id="photo-grid"></div>
@@ -468,23 +546,95 @@
     <div class="video-grid" id="video-grid"></div>
   </section>
 
-  <!-- Love note -->
+  <!-- Anniversary Game -->
   <section>
     <div class="chapter">
       <p class="chapter-eyebrow">Chapter Four</p>
-      <h2 class="chapter-title">A Note for You</h2>
+      <h2 class="chapter-title">Anniversary Calculator 🎈</h2>
       <div class="chapter-line"></div>
     </div>
-    <div class="love-note" style="margin: 0 24px 80px;">
-      <div class="quote-mark">"</div>
-      <p>
-        I never believed in perfect timing until I met you.<br/>
-        Every laugh we've shared, every quiet evening, every adventure —
-        they've all been building something I want to keep building forever.<br/>
-        Thank you for choosing me, every single day.
-      </p>
-      <p>Happy Anniversary, my love. Here's to us. Always us.</p>
-      <div class="signature">— Forever yours ♡</div>
+    <div class="game-wrap">
+      <p class="game-sub">Every answer equals our time together — solve all 10 🎉</p>
+      <div class="game-progress" id="game-progress"></div>
+      <div id="game-questions"></div>
+      <div class="game-win" id="game-win">
+        <div class="big">🎉❤️🎈</div>
+        Happy Anniversary baby!! Every single answer led back to us — <strong>730.5 days</strong> and counting. I love you so much, PBBG. Here's to every number that comes after. ∞
+      </div>
+    </div>
+  </section>
+
+  <!-- Her Names for Me -->
+  <section>
+    <div class="chapter">
+      <p class="chapter-eyebrow">Chapter Five</p>
+      <h2 class="chapter-title">Her Names for Me</h2>
+      <div class="chapter-line"></div>
+    </div>
+    <div class="nick-list">
+      <div class="nick-item">
+        <span class="nick-name">My Lover</span>
+        <span class="nick-when">When she is extremely happy</span>
+      </div>
+      <div class="nick-item">
+        <span class="nick-name">Baby</span>
+        <span class="nick-when">When she feels like a baby too — vulnerable</span>
+      </div>
+      <div class="nick-item">
+        <span class="nick-name">Tobs</span>
+        <span class="nick-when">When we are really jolly</span>
+      </div>
+      <div class="nick-item">
+        <span class="nick-name">Tbenzz</span>
+        <span class="nick-when">When she hasn't seen me in a while, or sarcastically like "ahhh tbenzzzz"</span>
+      </div>
+      <div class="nick-item">
+        <span class="nick-name">Wanyiiii</span>
+        <span class="nick-when">Her latest addition — when we are really happy</span>
+      </div>
+      <div class="nick-item">
+        <span class="nick-name">Oluwatobsss / Oluwatbenzz</span>
+        <span class="nick-when">When I'm happy and we are just good</span>
+      </div>
+      <div class="nick-item">
+        <span class="nick-name">Tobechukwu</span>
+        <span class="nick-when">When I'm doing something she has to call me to order for</span>
+      </div>
+      <div class="nick-item">
+        <span class="nick-name">Bae</span>
+        <span class="nick-when">When she is really angry</span>
+      </div>
+      <div class="nick-item">
+        <span class="nick-name">Babe</span>
+        <span class="nick-when">Just there — normal life!</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- How We Started -->
+  <section>
+    <div class="chapter">
+      <p class="chapter-eyebrow">Chapter Six</p>
+      <h2 class="chapter-title">How We Started</h2>
+      <div class="chapter-line"></div>
+    </div>
+    <div class="story-prose">
+      <p>Like every normal people we started talking, but it didn't really start till I asked her — <em>"ARE YOU BEAUTIFUL!!!"</em> In her mind she was like, who is this guy with this audacity (I know say she don de feel me sha 😂😂). After a little back and forth of her screaming and showing me how beautiful she was (she was so beautiful 😩).</p>
+      <p>After about a month of texting we finally met — sorry guys, we were in two different states when we started talking. I was in Kaduna in uni and she was in Abuja in uni too, but we both lived in Abuja. Back to the story — we met, then I took her on two dates, then asked her out on the third date. I was so shocked she agreed, because I had a smoking problem at the time and I didn't try to hide it 😭😭.</p>
+    </div>
+  </section>
+
+  <!-- How I Asked Her Out -->
+  <section>
+    <div class="chapter">
+      <p class="chapter-eyebrow">Chapter Seven</p>
+      <h2 class="chapter-title">How I Asked Her Out</h2>
+      <div class="chapter-line"></div>
+    </div>
+    <div class="story-prose">
+      <p>It wasn't anything serious or dramatic honestly, it was a bit embarrassing 😭. My exact words were: <em>"Ehhen, what about that your boyfriend sef?"</em> (I don't even know why I said it because I already knew she didn't have one 😂).</p>
+      <p>She said she didn't, and then I asked if I could be her man… and she said <strong>YES</strong>. She was blushing so much, I could tell she already felt something for me too 🤭. I was honestly scared to ask because I didn't want to get rejected. I really liked her, and if she had said no, I don't even know what I would've done 😭.</p>
+      <p>Later she even told her friend who gave me her contact that I was <em>"behaving like a saint"</em> (me? saint? 😭). But in that moment, I just knew the feeling was mutual.</p>
     </div>
   </section>
 
@@ -609,6 +759,102 @@ function armGlobalUnmute() {
     document.addEventListener(ev, unlock, { capture: true, passive: true }));
 }
 armGlobalUnmute();
+
+/* ══════════════════════════════════
+   ANNIVERSARY CALCULATOR GAME
+══════════════════════════════════ */
+const QUESTIONS = [
+  { q: '800 − 69.5 = ?',           a: 730.5 },
+  { q: '365 × 2 + 0.5 = ?',        a: 730.5 },
+  { q: '1461 ÷ 2 = ?',             a: 730.5 },
+  { q: '1000 − 269.5 = ?',         a: 730.5 },
+  { q: '730 + 0.5 = ?',            a: 730.5 },
+  { q: '600 + 200 − 69.5 = ?',     a: 730.5 },
+  { q: '900 − 169.5 = ?',          a: 730.5 },
+  { q: '700 + 50 − 19.5 = ?',      a: 730.5 },
+  { q: '50 × 20 − 269.5 = ?',      a: 730.5 },
+  { q: '(1461 ÷ 4) + 365.25 = ?',  a: 730.5 },
+];
+let gameIdx = 0, gameDone = [];
+
+(function buildGame() {
+  const prog = document.getElementById('game-progress');
+  const qs   = document.getElementById('game-questions');
+  if (!prog || !qs) return;
+
+  QUESTIONS.forEach((_, i) => {
+    const pip = document.createElement('div');
+    pip.className = 'game-pip'; pip.id = 'pip-' + i;
+    prog.appendChild(pip);
+  });
+
+  QUESTIONS.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'game-q' + (i === 0 ? ' active' : '');
+    div.id = 'gq-' + i;
+    div.innerHTML = `
+      <div class="game-q-num">Question ${i+1} of ${QUESTIONS.length}</div>
+      <div class="game-q-text">${q.q}</div>
+      <div class="game-input-row">
+        <input class="game-input" type="number" step="0.5" placeholder="Your answer…"
+               id="gi-${i}" onkeydown="if(event.key==='Enter') checkGame(${i})" />
+        <button class="game-btn" onclick="checkGame(${i})">Check ♡</button>
+      </div>
+      <div class="game-feedback" id="gf-${i}"></div>`;
+    qs.appendChild(div);
+  });
+})();
+
+function checkGame(i) {
+  const input = document.getElementById('gi-' + i);
+  const fb    = document.getElementById('gf-' + i);
+  const val   = parseFloat(input.value);
+  if (isNaN(val)) { fb.textContent = 'Enter a number 💕'; return; }
+
+  if (Math.abs(val - 730.5) < 0.01) {
+    fb.textContent = '✓ Yes! 730.5 — that's us 🎉';
+    fb.style.color = '#ff6b8a';
+    document.getElementById('pip-' + i).classList.add('done');
+    gameDone[i] = true;
+    spawnBalloons();
+    setTimeout(() => {
+      document.getElementById('gq-' + i).classList.remove('active');
+      const next = i + 1;
+      if (next < QUESTIONS.length) {
+        document.getElementById('gq-' + next).classList.add('active');
+        setTimeout(() => document.getElementById('gi-' + next)?.focus(), 100);
+      } else {
+        document.getElementById('game-win').classList.add('show');
+        spawnBalloons(30);
+      }
+    }, 900);
+  } else {
+    fb.textContent = 'Not quite — try again 😊';
+    fb.style.color = 'rgba(255,180,180,.8)';
+    input.value = '';
+    input.focus();
+  }
+}
+
+function spawnBalloons(count = 10) {
+  const emojis = ['🎈','🎉','💕','✨','❤️'];
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'balloon-burst';
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = (10 + Math.random() * 80) + 'vw';
+      el.style.top  = (20 + Math.random() * 60) + 'vh';
+      const angle = Math.random() * Math.PI * 2;
+      const dist  = 80 + Math.random() * 120;
+      el.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+      el.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+      el.style.animationDuration = (1 + Math.random() * .8) + 's';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 2200);
+    }, i * 80);
+  }
+}
 
 /* ══════════════════════════════════
    PHOTO & VIDEO GRIDS
