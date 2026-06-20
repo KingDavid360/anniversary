@@ -690,7 +690,7 @@
       <div class="toast-heart">♡</div>
       <h2 class="toast-heading">A little prayer for us</h2>
       <p class="toast-text">
-        Lord, thank You for this love — for the laughter, the growth, the hard days that made us stronger, and the good days that reminded us why we chose each other. As we mark two years, we ask that You keep leading us, keep protecting what we have, and keep making us better — together. May every year ahead be fuller than the last. In Jesus' Name, Amen. 🙏
+        Lord, thank You for this love, for the laughter, the growth, the hard days that made us stronger, and the good days that reminded us why we chose each other. As we mark two years, we ask that You keep leading us, keep protecting what we have, and keep making us better, together. May every year ahead be fuller than the last. In Jesus' Name, Amen. 🙏
       </p>
       <div class="toast-divider"></div>
       <p class="toast-sign">Happy 2nd Anniversary, PBBG. I love you endlessly. ❤️</p>
@@ -754,15 +754,14 @@ setTimeout(() => {
 
 /* ══════════════════════════════════
    YOUTUBE MUSIC — Adenuga · Joeboy ft. Qing Madi
-   Strategy (same as birthday site):
-   1. API loads on page open.
-   2. On first user gesture → unmute + play.
-   3. If player not ready yet → queue it.
+   Strategy:
+   1. Player starts MUTED with autoplay:1 — begins playing immediately.
+   2. On first user gesture (tap/click anywhere) → unlockAudio + unMute.
+   3. If player not ready yet when gesture fires → unMute in onReady.
+   This avoids the race condition where the gesture fires before onReady.
 ══════════════════════════════════ */
-let ytPlayer = null, ytReady = false, musicOn = false, playWhenReady = false;
-let audioUnlocked = false;
+let ytPlayer = null, ytReady = false, audioUnlocked = false;
 
-/* Load API immediately */
 (function() {
   const t = document.createElement('script');
   t.src = 'https://www.youtube.com/iframe_api';
@@ -772,24 +771,23 @@ let audioUnlocked = false;
 window.onYouTubeIframeAPIReady = function() {
   ytPlayer = new YT.Player('yt-player', {
     height: '1', width: '1',
-    videoId: 'IkoIKcuq3ic', /* Adenuga - Joeboy ft. Qing Madi */
-    playerVars: { autoplay: 0, loop: 1, controls: 0, playlist: 'IkoIKcuq3ic', mute: 1 },
+    videoId: 'IkoIKcuq3ic',
+    playerVars: { autoplay: 1, loop: 1, controls: 0, playlist: 'IkoIKcuq3ic', mute: 1 },
     events: {
       onReady: e => {
         e.target.setVolume(55);
+        e.target.mute();
+        e.target.playVideo(); /* start muted — always allowed */
         ytReady = true;
-        if (playWhenReady) {
-          /* if the user already tapped before player was ready, unmute now */
-          if (audioUnlocked) e.target.unMute();
-          e.target.playVideo();
-          musicOn = true;
+        if (audioUnlocked) { /* user already tapped — unmute now */
+          try { e.target.unMute(); } catch(x) {}
         }
       }
     }
   });
 };
 
-/* iOS: unlock AudioContext inside the gesture that dismisses the splash */
+/* Plays a silent buffer to unlock the iOS audio context within a gesture */
 function unlockAudio() {
   try {
     const ac = new (window.AudioContext || window.webkitAudioContext)();
@@ -800,17 +798,16 @@ function unlockAudio() {
   } catch(e) {}
 }
 
-/* Arm global unmute — fires on the very first touch/click after page load */
+/* Fire once on the very first user gesture anywhere on the page */
 function armGlobalUnmute() {
   function unlock() {
     if (audioUnlocked) return;
-    unlockAudio();
-    playWhenReady = true;
-    if (ytPlayer && ytReady) {
-      try { ytPlayer.unMute(); ytPlayer.setVolume(55); ytPlayer.playVideo(); } catch(e) {}
-      musicOn = true;
-    }
     audioUnlocked = true;
+    unlockAudio();
+    if (ytPlayer && ytReady) {
+      try { ytPlayer.unMute(); ytPlayer.setVolume(55); } catch(e) {}
+    }
+    /* if player not ready, onReady will unmute because audioUnlocked is now true */
     removeAll();
   }
   function removeAll() {
