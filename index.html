@@ -434,6 +434,51 @@
     to { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
   }
 
+  /* ── Closing Toast / Prayer ── */
+  #toast-section {
+    padding: 80px 20px 100px;
+    text-align: center;
+    position: relative; z-index: 10;
+  }
+  .toast-inner {
+    max-width: 640px; margin: 0 auto;
+    opacity: 0; transform: translateY(28px);
+    transition: opacity .9s ease, transform .9s ease;
+  }
+  .toast-inner.visible { opacity: 1; transform: translateY(0); }
+  .toast-rule {
+    width: 1px; height: 70px; margin: 0 auto 36px;
+    background: linear-gradient(to bottom, transparent, rgba(255,107,138,.45), transparent);
+  }
+  .toast-heart {
+    font-size: 2.2rem; color: #ff6b8a; margin-bottom: 18px;
+    animation: heartbeat 2s ease-in-out infinite;
+  }
+  .toast-heading {
+    font-size: clamp(1.6rem, 4vw, 2.4rem); font-style: italic; font-weight: 400;
+    background: linear-gradient(135deg, #fff 0%, #ffc0cb 60%, #ff6b8a 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin-bottom: 32px;
+  }
+  .toast-text {
+    font-size: clamp(1rem, 2.4vw, 1.18rem);
+    line-height: 2; color: rgba(255,255,255,.82);
+    font-style: italic; margin-bottom: 36px;
+  }
+  .toast-divider {
+    width: 55px; height: 1px; margin: 0 auto 28px;
+    background: linear-gradient(90deg, transparent, #ff6b8a, transparent);
+  }
+  .toast-sign {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    color: rgba(255,192,203,.9); font-style: italic; letter-spacing: 1px;
+    margin-bottom: 40px;
+  }
+  .toast-rule-bottom {
+    width: 1px; height: 50px; margin: 0 auto;
+    background: linear-gradient(to bottom, rgba(255,107,138,.4), transparent);
+  }
+
   footer {
     text-align: center; padding: 40px 20px 60px;
     color: rgba(255,255,255,.25); font-size: .72rem; letter-spacing: 2px;
@@ -546,28 +591,10 @@
     <div class="video-grid" id="video-grid"></div>
   </section>
 
-  <!-- Anniversary Game -->
-  <section>
-    <div class="chapter">
-      <p class="chapter-eyebrow">Chapter Four</p>
-      <h2 class="chapter-title">Anniversary Calculator 🎈</h2>
-      <div class="chapter-line"></div>
-    </div>
-    <div class="game-wrap">
-      <p class="game-sub">Every answer equals our time together — solve all 10 🎉</p>
-      <div class="game-progress" id="game-progress"></div>
-      <div id="game-questions"></div>
-      <div class="game-win" id="game-win">
-        <div class="big">🎉❤️🎈</div>
-        Happy Anniversary baby!! Every single answer led back to us — <strong>730.5 days</strong> and counting. I love you so much, PBBG. Here's to every number that comes after. ∞
-      </div>
-    </div>
-  </section>
-
   <!-- Her Names for Me -->
   <section>
     <div class="chapter">
-      <p class="chapter-eyebrow">Chapter Five</p>
+      <p class="chapter-eyebrow">Chapter Four</p>
       <h2 class="chapter-title">Her Names for Me</h2>
       <div class="chapter-line"></div>
     </div>
@@ -578,7 +605,7 @@
       </div>
       <div class="nick-item">
         <span class="nick-name">Baby</span>
-        <span class="nick-when">When she feels like a baby too — vulnerable</span>
+        <span class="nick-when">When she feels like a baby too, vulnerable</span>
       </div>
       <div class="nick-item">
         <span class="nick-name">Tobs</span>
@@ -590,7 +617,7 @@
       </div>
       <div class="nick-item">
         <span class="nick-name">Wanyiiii</span>
-        <span class="nick-when">Her latest addition — when we are really happy</span>
+        <span class="nick-when">Her latest addition, when we are really happy</span>
       </div>
       <div class="nick-item">
         <span class="nick-name">Oluwatobsss / Oluwatbenzz</span>
@@ -606,7 +633,7 @@
       </div>
       <div class="nick-item">
         <span class="nick-name">Babe</span>
-        <span class="nick-when">Just there — normal life!</span>
+        <span class="nick-when">Just there, normal life!</span>
       </div>
     </div>
   </section>
@@ -614,7 +641,7 @@
   <!-- How We Started -->
   <section>
     <div class="chapter">
-      <p class="chapter-eyebrow">Chapter Six</p>
+      <p class="chapter-eyebrow">Chapter Five</p>
       <h2 class="chapter-title">How We Started</h2>
       <div class="chapter-line"></div>
     </div>
@@ -627,7 +654,7 @@
   <!-- How I Asked Her Out -->
   <section>
     <div class="chapter">
-      <p class="chapter-eyebrow">Chapter Seven</p>
+      <p class="chapter-eyebrow">Chapter Six</p>
       <h2 class="chapter-title">How I Asked Her Out</h2>
       <div class="chapter-line"></div>
     </div>
@@ -635,6 +662,39 @@
       <p>It wasn't anything serious or dramatic honestly, it was a bit embarrassing 😭. My exact words were: <em>"Ehhen, what about that your boyfriend sef?"</em> (I don't even know why I said it because I already knew she didn't have one 😂).</p>
       <p>She said she didn't, and then I asked if I could be her man… and she said <strong>YES</strong>. She was blushing so much, I could tell she already felt something for me too 🤭. I was honestly scared to ask because I didn't want to get rejected. I really liked her, and if she had said no, I don't even know what I would've done 😭.</p>
       <p>Later she even told her friend who gave me her contact that I was <em>"behaving like a saint"</em> (me? saint? 😭). But in that moment, I just knew the feeling was mutual.</p>
+    </div>
+  </section>
+
+  <!-- Anniversary Game -->
+  <section>
+    <div class="chapter">
+      <p class="chapter-eyebrow">Chapter Seven</p>
+      <h2 class="chapter-title">Anniversary Calculator 🎈</h2>
+      <div class="chapter-line"></div>
+    </div>
+    <div class="game-wrap">
+      <p class="game-sub">Every answer equals our time together. solve all 10 🎉</p>
+      <div class="game-progress" id="game-progress"></div>
+      <div id="game-questions"></div>
+      <div class="game-win" id="game-win">
+        <div class="big">🎉❤️🎈</div>
+        Happy Anniversary baby!! Every single answer led back to us — <strong>730.5 days</strong> and counting. I love you so much, PBBG. Here's to every number that comes after. ∞
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing Toast / Prayer -->
+  <section id="toast-section">
+    <div class="toast-inner">
+      <div class="toast-rule"></div>
+      <div class="toast-heart">♡</div>
+      <h2 class="toast-heading">A little prayer for us</h2>
+      <p class="toast-text">
+        Lord, thank You for this love — for the laughter, the growth, the hard days that made us stronger, and the good days that reminded us why we chose each other. As we mark two years, we ask that You keep leading us, keep protecting what we have, and keep making us better — together. May every year ahead be fuller than the last. In Jesus' Name, Amen. 🙏
+      </p>
+      <div class="toast-divider"></div>
+      <p class="toast-sign">Happy 2nd Anniversary, PBBG. I love you endlessly. ❤️</p>
+      <div class="toast-rule-bottom"></div>
     </div>
   </section>
 
@@ -719,7 +779,9 @@ window.onYouTubeIframeAPIReady = function() {
         e.target.setVolume(55);
         ytReady = true;
         if (playWhenReady) {
-          e.target.playVideo(); /* muted — iOS allows this */
+          /* if the user already tapped before player was ready, unmute now */
+          if (audioUnlocked) e.target.unMute();
+          e.target.playVideo();
           musicOn = true;
         }
       }
@@ -977,6 +1039,18 @@ document.querySelectorAll('.photo-card, .video-card, .tl-item, .love-note').forE
   el.style.transition = 'opacity .6s ease, transform .6s ease';
   io.observe(el);
 });
+
+/* toast section reveal */
+const toastIo = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      en.target.classList.add('visible');
+      toastIo.disconnect();
+    }
+  });
+}, { threshold: 0.2 });
+const toastInner = document.querySelector('.toast-inner');
+if (toastInner) toastIo.observe(toastInner);
 </script>
 </body>
 </html>
