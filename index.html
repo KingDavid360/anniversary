@@ -486,8 +486,8 @@
   }
   footer span { color: #ff6b8a; }
 
-  /* ── YouTube hidden player ── */
-  #yt-wrap { position: fixed; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden; pointer-events: none; }
+  /* ── Audio player ── */
+  #bg-audio { display: none; }
 
   /* ── Responsive ── */
   @media(max-width:600px) {
@@ -504,8 +504,8 @@
 <!-- ── Background slideshow ── -->
 <div id="bg-wrap"></div>
 
-<!-- ── YouTube hidden player ── -->
-<div id="yt-wrap"><div id="yt-player"></div></div>
+<!-- ── Audio ── -->
+<audio id="bg-audio" src="music/adenuga.mp3" loop preload="auto"></audio>
 
 <!-- ── Particles ── -->
 <canvas id="particles"></canvas>
@@ -753,71 +753,22 @@ setTimeout(() => {
 }, 4500);
 
 /* ══════════════════════════════════
-   YOUTUBE MUSIC — Adenuga · Joeboy ft. Qing Madi
-   Strategy:
-   1. Player starts MUTED with autoplay:1 — begins playing immediately.
-   2. On first user gesture (tap/click anywhere) → unlockAudio + unMute.
-   3. If player not ready yet when gesture fires → unMute in onReady.
-   This avoids the race condition where the gesture fires before onReady.
+   MUSIC — Adenuga · Joeboy ft. Qing Madi
+   Plain <audio> element. Starts on first user gesture (iOS requirement).
 ══════════════════════════════════ */
-let ytPlayer = null, ytReady = false, audioUnlocked = false;
+const bgAudio = document.getElementById('bg-audio');
+bgAudio.volume = 0.55;
 
-(function() {
-  const t = document.createElement('script');
-  t.src = 'https://www.youtube.com/iframe_api';
-  document.head.appendChild(t);
-})();
-
-window.onYouTubeIframeAPIReady = function() {
-  ytPlayer = new YT.Player('yt-player', {
-    height: '1', width: '1',
-    videoId: 'IkoIKcuq3ic',
-    playerVars: { autoplay: 1, loop: 1, controls: 0, playlist: 'IkoIKcuq3ic', mute: 1 },
-    events: {
-      onReady: e => {
-        e.target.setVolume(55);
-        e.target.mute();
-        e.target.playVideo(); /* start muted — always allowed */
-        ytReady = true;
-        if (audioUnlocked) { /* user already tapped — unmute now */
-          try { e.target.unMute(); } catch(x) {}
-        }
-      }
-    }
-  });
-};
-
-/* Plays a silent buffer to unlock the iOS audio context within a gesture */
-function unlockAudio() {
-  try {
-    const ac = new (window.AudioContext || window.webkitAudioContext)();
-    const buf = ac.createBuffer(1, 1, 22050);
-    const src = ac.createBufferSource();
-    src.buffer = buf; src.connect(ac.destination); src.start(0);
-    setTimeout(() => ac.close(), 500);
-  } catch(e) {}
-}
-
-/* Fire once on the very first user gesture anywhere on the page */
-function armGlobalUnmute() {
-  function unlock() {
-    if (audioUnlocked) return;
-    audioUnlocked = true;
-    unlockAudio();
-    if (ytPlayer && ytReady) {
-      try { ytPlayer.unMute(); ytPlayer.setVolume(55); } catch(e) {}
-    }
-    /* if player not ready, onReady will unmute because audioUnlocked is now true */
-    removeAll();
-  }
-  function removeAll() {
-    ['touchend','click','pointerdown','keydown'].forEach(ev =>
-      document.removeEventListener(ev, unlock, true));
-  }
+let musicStarted = false;
+function startMusic() {
+  if (musicStarted) return;
+  musicStarted = true;
+  bgAudio.play().catch(() => {});
   ['touchend','click','pointerdown','keydown'].forEach(ev =>
-    document.addEventListener(ev, unlock, { capture: true, passive: true }));
+    document.removeEventListener(ev, startMusic, true));
 }
-armGlobalUnmute();
+['touchend','click','pointerdown','keydown'].forEach(ev =>
+  document.addEventListener(ev, startMusic, { capture: true, passive: true }));
 
 /* ══════════════════════════════════
    ANNIVERSARY CALCULATOR GAME
