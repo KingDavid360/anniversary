@@ -133,6 +133,21 @@
     animation: fadeUp .9s .7s ease both, heartbeat 1.6s 1.6s ease-in-out infinite;
     margin-top: 8px;
   }
+
+  .splash-enter {
+    margin-top: 32px;
+    background: none; border: 1.5px solid rgba(255,107,138,.6);
+    color: #fff; border-radius: 50px;
+    padding: 14px 44px; font-size: 1rem;
+    font-family: Georgia, serif; font-style: italic;
+    letter-spacing: 3px; cursor: pointer;
+    animation: fadeUp .9s .9s ease both, pulseRing 3s 2s ease-in-out infinite;
+    transition: background .25s, border-color .25s;
+  }
+  .splash-enter:hover, .splash-enter:active {
+    background: rgba(255,107,138,.18);
+    border-color: rgba(255,107,138,1);
+  }
   @keyframes heartbeat {
     0%,100% { transform: scale(1); }
     50%      { transform: scale(1.2); }
@@ -521,6 +536,7 @@
   <div class="splash-wish">Happy two-year anniversary to US 🎉❤️</div>
   <div class="splash-days"><s>730½</s>&nbsp; days &nbsp;∞ left</div>
   <div class="splash-hearts">♡ ♥ ♡</div>
+  <button class="splash-enter" onclick="enterSite()">Tap to begin ♡</button>
 </div>
 
 <!-- ── Site content ── -->
@@ -594,8 +610,8 @@
         <span class="nick-when">When she is extremely happy</span>
       </div>
       <div class="nick-item">
-        <span class="nick-name">Baby</span>
-        <span class="nick-when">When she feels like a baby too, vulnerable</span>
+        <span class="nick-name">Babby</span>
+        <span class="nick-when">When she feels like a babby too, vulnerable</span>
       </div>
       <div class="nick-item">
         <span class="nick-name">Tobs</span>
@@ -678,7 +694,7 @@
       <div id="game-questions"></div>
       <div class="game-win" id="game-win">
         <div class="big">🎉❤️🎈</div>
-        Happy Anniversary baby!! Every single answer led back to us — <strong>730.5 days</strong> and counting. I love you so much, PBBG. Here's to every number that comes after. ∞
+        Happy Anniversary babby!! Every single answer led back to us — <strong>730.5 days</strong> and counting. I love you so much, PBBG. Here's to every number that comes after. ∞
       </div>
     </div>
   </section>
@@ -744,31 +760,22 @@ let bgIdx = 0, bgEls = [];
 })();
 
 /* ══════════════════════════════════
-   SPLASH
-══════════════════════════════════ */
-setTimeout(() => {
-  const s = document.getElementById('splash');
-  s.classList.add('hide');
-  setTimeout(() => s.remove(), 1500);
-}, 4500);
-
-/* ══════════════════════════════════
-   MUSIC — Adenuga · Joeboy ft. Qing Madi
-   Plain <audio> element. Starts on first user gesture (iOS requirement).
+   SPLASH + MUSIC
+   enterSite() is called by the "Tap to begin" button on the splash.
+   Because it runs inside a direct user gesture, audio.play() with
+   sound is allowed on iOS/Android immediately.
 ══════════════════════════════════ */
 const bgAudio = document.getElementById('bg-audio');
 bgAudio.volume = 0.55;
 
-let musicStarted = false;
-function startMusic() {
-  if (musicStarted) return;
-  musicStarted = true;
+function enterSite() {
+  /* play music — this is inside the button tap, so iOS allows it */
   bgAudio.play().catch(() => {});
-  ['touchend','click','pointerdown','keydown'].forEach(ev =>
-    document.removeEventListener(ev, startMusic, true));
+  /* fade out splash */
+  const s = document.getElementById('splash');
+  s.classList.add('hide');
+  setTimeout(() => s.remove(), 1500);
 }
-['touchend','click','pointerdown','keydown'].forEach(ev =>
-  document.addEventListener(ev, startMusic, { capture: true, passive: true }));
 
 /* ══════════════════════════════════
    ANNIVERSARY CALCULATOR GAME
@@ -889,7 +896,7 @@ VIDEOS.forEach((src, idx) => {
   const card = document.createElement('div');
   card.className = 'video-card';
   card.innerHTML = `
-    <video preload="metadata" controls playsinline>
+    <video preload="none" controls playsinline>
       <source src="${src}" type="video/mp4" />
     </video>
     <div class="video-card-label">Memory ${idx+1}</div>`;
