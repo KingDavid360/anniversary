@@ -134,6 +134,14 @@
     margin-top: 8px;
   }
 
+  .splash-date {
+    font-size: clamp(.75rem, 2vw, .9rem);
+    letter-spacing: 6px; color: rgba(255,107,138,.75);
+    text-transform: uppercase;
+    animation: fadeUp .9s .52s ease both;
+    margin-bottom: 6px;
+  }
+
   .splash-enter {
     margin-top: 32px;
     background: none; border: 1.5px solid rgba(255,107,138,.6);
@@ -200,6 +208,12 @@
     letter-spacing: 3px; text-transform: uppercase;
     animation: fadeUp .9s .25s ease both;
   }
+  .hero-date {
+    font-size: .72rem; letter-spacing: 6px; color: rgba(255,107,138,.6);
+    text-transform: uppercase; margin-top: 8px;
+    animation: fadeUp .9s .4s ease both;
+  }
+
   .scroll-hint {
     position: absolute; bottom: 90px;
     display: flex; flex-direction: column; align-items: center; gap: 8px;
@@ -449,6 +463,71 @@
     to { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
   }
 
+  /* ── Locked Voice Message ── */
+  #voice-section {
+    padding: 80px 20px 60px;
+    text-align: center; position: relative; z-index: 10;
+  }
+  .voice-lock-wrap {
+    max-width: 480px; margin: 0 auto;
+  }
+  .voice-lock-box {
+    background: rgba(8,5,20,.6); backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,107,138,.2); border-radius: 22px;
+    padding: 40px 32px; margin-top: 28px;
+  }
+  .voice-lock-icon { font-size: 2.2rem; margin-bottom: 14px; }
+  .voice-lock-hint {
+    font-size: .8rem; letter-spacing: 3px; color: rgba(255,255,255,.4);
+    text-transform: uppercase; margin-bottom: 22px;
+  }
+  .voice-lock-input {
+    width: 100%; padding: 13px 16px; text-align: center;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,107,138,.3);
+    border-radius: 12px; color: #fff; font-size: 1.1rem;
+    font-family: Georgia, serif; letter-spacing: 4px; outline: none;
+    transition: border-color .2s;
+  }
+  .voice-lock-input::placeholder { color: rgba(255,255,255,.2); letter-spacing: 2px; font-size: .9rem; }
+  .voice-lock-input:focus { border-color: rgba(255,107,138,.7); }
+  .voice-lock-btn {
+    margin-top: 14px; width: 100%; padding: 12px;
+    background: rgba(255,107,138,.15); border: 1px solid rgba(255,107,138,.4);
+    border-radius: 12px; color: #fff; font-size: .82rem;
+    letter-spacing: 3px; text-transform: uppercase;
+    font-family: Georgia, serif; cursor: pointer; transition: background .2s;
+  }
+  .voice-lock-btn:hover { background: rgba(255,107,138,.28); }
+  .voice-lock-error {
+    margin-top: 10px; font-size: .82rem; color: rgba(255,120,120,.8);
+    font-style: italic; min-height: 1.2rem;
+  }
+  .voice-lock-error.shake { animation: voiceShake .4s ease; }
+  @keyframes voiceShake {
+    0%,100% { transform: translateX(0); }
+    25%,75%  { transform: translateX(-6px); }
+    50%       { transform: translateX(6px); }
+  }
+  .voice-player-wrap {
+    display: none; margin-top: 28px;
+    background: rgba(8,5,20,.6); backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,107,138,.25); border-radius: 22px;
+    padding: 36px 28px;
+    animation: fadeUp .8s ease both;
+  }
+  .voice-player-wrap.open { display: block; }
+  .voice-player-label {
+    font-size: .75rem; letter-spacing: 4px; color: #ff8fa3;
+    text-transform: uppercase; margin-bottom: 18px;
+  }
+  .voice-player-wrap audio {
+    width: 100%; border-radius: 10px; outline: none;
+  }
+  .voice-player-note {
+    margin-top: 16px; font-size: .92rem; font-style: italic;
+    color: rgba(255,255,255,.55); line-height: 1.6;
+  }
+
   /* ── Closing Toast / Prayer ── */
   #toast-section {
     padding: 80px 20px 100px;
@@ -534,6 +613,7 @@
   <div class="splash-years">2</div>
   <div class="splash-years-label">Years of Us</div>
   <div class="splash-wish">Happy two-year anniversary to US 🎉❤️</div>
+  <div class="splash-date">22 · 06 · 2024</div>
   <div class="splash-days"><s>730½</s>&nbsp; days &nbsp;∞ left</div>
   <div class="splash-hearts">♡ ♥ ♡</div>
   <button class="splash-enter" onclick="enterSite()">Tap to begin ♡</button>
@@ -550,6 +630,7 @@
     <p class="hero-tag">A love story</p>
     <h1 class="hero-title">Us</h1>
     <p class="hero-sub">Together · Always · Forever</p>
+    <p class="hero-date">22 · 06 · 2024</p>
     <div class="scroll-hint">
       <span>Scroll to explore</span>
       <span class="arr">↓</span>
@@ -695,6 +776,31 @@
       <div class="game-win" id="game-win">
         <div class="big">🎉❤️🎈</div>
         Happy Anniversary babby!! Every single answer led back to us — <strong>730.5 days</strong> and counting. I love you so much, PBBG. Here's to every number that comes after. ∞
+      </div>
+    </div>
+  </section>
+
+  <!-- Locked Voice Message -->
+  <section id="voice-section">
+    <div class="chapter">
+      <p class="chapter-eyebrow">Chapter Eight</p>
+      <h2 class="chapter-title">A Message for You 🔒</h2>
+      <div class="chapter-line"></div>
+    </div>
+    <div class="voice-lock-wrap">
+      <div class="voice-lock-box" id="voice-lock-box">
+        <div class="voice-lock-icon">🔐</div>
+        <p class="voice-lock-hint">Enter the date we started to unlock</p>
+        <input class="voice-lock-input" id="voice-pwd" type="text"
+               placeholder="DD.MM.YYYY"
+               onkeydown="if(event.key==='Enter') checkVoicePwd()" />
+        <button class="voice-lock-btn" onclick="checkVoicePwd()">Unlock ♡</button>
+        <p class="voice-lock-error" id="voice-error"></p>
+      </div>
+      <div class="voice-player-wrap" id="voice-player-wrap">
+        <p class="voice-player-label">A message from your person ♡</p>
+        <audio controls src="music/message.m4a" preload="none"></audio>
+        <p class="voice-player-note">Play this somewhere quiet. 🎧</p>
       </div>
     </div>
   </section>
@@ -994,6 +1100,27 @@ document.querySelectorAll('.photo-card, .video-card, .tl-item, .love-note').forE
   el.style.transition = 'opacity .6s ease, transform .6s ease';
   io.observe(el);
 });
+
+/* ══════════════════════════════════
+   VOICE MESSAGE LOCK
+══════════════════════════════════ */
+function checkVoicePwd() {
+  const input = document.getElementById('voice-pwd');
+  const err   = document.getElementById('voice-error');
+  const val   = input.value.trim().replace(/\s/g, '');
+  /* accept any sensible formatting of 22.06.2024 */
+  const ok = ['22.06.2024','22/06/2024','22-06-2024','22062024'].includes(val);
+  if (ok) {
+    document.getElementById('voice-lock-box').style.display = 'none';
+    document.getElementById('voice-player-wrap').classList.add('open');
+  } else {
+    err.textContent = 'Not quite — think about the date we started ♡';
+    err.classList.remove('shake');
+    void err.offsetWidth;
+    err.classList.add('shake');
+    input.value = ''; input.focus();
+  }
+}
 
 /* toast section reveal */
 const toastIo = new IntersectionObserver(entries => {
