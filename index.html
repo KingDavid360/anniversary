@@ -837,11 +837,11 @@
    BACKGROUND SLIDESHOW
 ══════════════════════════════════ */
 const BG_SLIDES = [
-  { src: 'photos/photo4.jpg',  pos: 'center 65%' },
-  { src: 'photos/photo11.jpg', pos: 'center 20%' },
-  { src: 'photos/photo13.jpg', pos: 'center 50%' },
-  { src: 'photos/photo3.jpg',  pos: 'center 40%' },
-  { src: 'photos/photo6.jpg',  pos: 'center 35%' },
+  { src: 'photos/photo4.jpg',  pos: 'center center' },
+  { src: 'photos/photo11.jpg', pos: 'center center' },
+  { src: 'photos/photo13.jpg', pos: 'center center' },
+  { src: 'photos/photo3.jpg',  pos: 'center center' },
+  { src: 'photos/photo6.jpg',  pos: 'center center' },
 ];
 
 /* preload all bg images immediately */
@@ -1114,7 +1114,9 @@ function checkVoicePwd() {
     wrap.classList.add('open');
     /* stop bg music the moment voice starts playing */
     const voice = wrap.querySelector('audio');
-    voice.addEventListener('play', () => { bgAudio.pause(); bgAudio.currentTime = 0; }, { once: true });
+    voice.addEventListener('play',  () => { bgAudio.pause(); bgAudio.currentTime = 0; });
+    voice.addEventListener('pause', () => { bgAudio.play().catch(() => {}); });
+    voice.addEventListener('ended', () => { bgAudio.play().catch(() => {}); });
   } else {
     err.textContent = 'Not quite — think about the date we started ♡';
     err.classList.remove('shake');
