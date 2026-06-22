@@ -1112,11 +1112,9 @@ function checkVoicePwd() {
     document.getElementById('voice-lock-box').style.display = 'none';
     const wrap = document.getElementById('voice-player-wrap');
     wrap.classList.add('open');
-    /* pause bg music while voice plays, resume when done/paused */
+    /* stop bg music the moment voice starts playing */
     const voice = wrap.querySelector('audio');
-    voice.addEventListener('play',  () => { bgAudio.pause(); });
-    voice.addEventListener('pause', () => { bgAudio.play().catch(() => {}); });
-    voice.addEventListener('ended', () => { bgAudio.play().catch(() => {}); });
+    voice.addEventListener('play', () => { bgAudio.pause(); bgAudio.currentTime = 0; }, { once: true });
   } else {
     err.textContent = 'Not quite — think about the date we started ♡';
     err.classList.remove('shake');
