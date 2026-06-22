@@ -599,7 +599,7 @@
 <div id="bg-wrap"></div>
 
 <!-- ── Audio ── -->
-<audio id="bg-audio" src="music/adenuga.mp3" loop preload="auto"></audio>
+<audio id="bg-audio" src="music/adenuga.mp3" loop preload="metadata"></audio>
 
 <!-- ── Particles ── -->
 <canvas id="particles"></canvas>
@@ -997,16 +997,29 @@ PHOTOS.forEach((src, idx) => {
   photoGrid.appendChild(card);
 });
 
+/* Videos: src is set only when the card scrolls into view.
+   Until then the browser makes zero network requests for them. */
 const videoGrid = document.getElementById('video-grid');
+const videoObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const video = entry.target.querySelector('video');
+    if (video && !video.src) {
+      video.src = video.dataset.src;
+      video.load();
+    }
+    videoObserver.unobserve(entry.target);
+  });
+}, { rootMargin: '200px' });
+
 VIDEOS.forEach((src, idx) => {
   const card = document.createElement('div');
   card.className = 'video-card';
   card.innerHTML = `
-    <video preload="none" controls playsinline>
-      <source src="${src}" type="video/mp4" />
-    </video>
+    <video data-src="${src}" preload="none" controls playsinline></video>
     <div class="video-card-label">Memory ${idx+1}</div>`;
   videoGrid.appendChild(card);
+  videoObserver.observe(card);
 });
 
 /* ══════════════════════════════════
