@@ -1108,11 +1108,15 @@ function checkVoicePwd() {
   const input = document.getElementById('voice-pwd');
   const err   = document.getElementById('voice-error');
   const val   = input.value.trim().replace(/\s/g, '');
-  /* accept any sensible formatting of 22.06.2024 */
-  const ok = ['22.06.2024','22/06/2024','22-06-2024','22062024'].includes(val);
-  if (ok) {
+  if (val === '22.06.2024') {
     document.getElementById('voice-lock-box').style.display = 'none';
-    document.getElementById('voice-player-wrap').classList.add('open');
+    const wrap = document.getElementById('voice-player-wrap');
+    wrap.classList.add('open');
+    /* pause bg music while voice plays, resume when done/paused */
+    const voice = wrap.querySelector('audio');
+    voice.addEventListener('play',  () => { bgAudio.pause(); });
+    voice.addEventListener('pause', () => { bgAudio.play().catch(() => {}); });
+    voice.addEventListener('ended', () => { bgAudio.play().catch(() => {}); });
   } else {
     err.textContent = 'Not quite — think about the date we started ♡';
     err.classList.remove('shake');
