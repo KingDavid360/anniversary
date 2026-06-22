@@ -1124,9 +1124,12 @@ function checkVoicePwd() {
   if (val === '22.06.2024') {
     document.getElementById('voice-lock-box').style.display = 'none';
     const wrap = document.getElementById('voice-player-wrap');
+    const voice = wrap.querySelector('audio');
+    /* start buffering immediately on unlock, before user hits play */
+    voice.preload = 'auto';
+    voice.load();
     wrap.classList.add('open');
     /* stop bg music the moment voice starts playing */
-    const voice = wrap.querySelector('audio');
     voice.addEventListener('play',  () => { bgAudio.pause(); bgAudio.currentTime = 0; });
     voice.addEventListener('pause', () => { bgAudio.play().catch(() => {}); });
     voice.addEventListener('ended', () => { bgAudio.play().catch(() => {}); });
